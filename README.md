@@ -387,7 +387,7 @@ Uses Bluetooth LE accessories
 /**
  设置设备停止录音
  */
-+ (void)setdeviceStopAudioRecordingWithCallback:(LWResultCallback)callback;
++ (void)setDeviceStopAudioRecordingWithCallback:(LWResultCallback)callback;
 ```
 
 ##### 设置车载模式
