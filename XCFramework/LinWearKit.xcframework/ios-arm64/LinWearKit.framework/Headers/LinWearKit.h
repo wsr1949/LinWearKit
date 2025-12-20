@@ -1,0 +1,247 @@
+//
+//  LinWearKit.h
+//  LinWearKit
+//
+//  Created by LINWEAR on 2025-12-16.
+//
+
+#import <Foundation/Foundation.h>
+/// 更新记录、公开头文件
+#import <LinWearKit/LWHeader.h>
+
+NS_ASSUME_NONNULL_BEGIN
+
+@interface LinWearKit : NSObject
+
+/**
+ 初始化，注册委托代理
+ @param delegate                委托代理
+ @param enableLog               是否开启日志输出 详@link 【LDelegate】outputSdkLog:
+ */
++ (void)registerDelegate:(id <LWDelegate> _Nonnull)delegate enableLog:(BOOL)enableLog;
+
+
+/**
+ 开始扫描设备
+ */
++ (void)startScanning;
+
+
+/**
+ 停止扫描设备
+ */
++ (void)stopScanning;
+
+
+/**
+ 连接设备
+ @param uuid                    设备UUID
+ @param timeout                 连接超时时间（设置0则忽略超时）秒
+ @note  连接结果 详@link 【LDelegate】bleConnectionStatus:error:
+ */
++ (void)connectingDevice:(NSString * _Nonnull)uuid timeout:(int)timeout;
+
+
+/**
+ 断开设备连接
+ */
++ (void)disconnectDevice;
+
+
+/**
+ 中心蓝牙状态
+ @return    中心蓝牙状态
+*/
++ (CBManagerState)centralManagerState;
+
+
+/**
+ BLE连接状态
+ @return    BLE连接状态
+ */
++ (LWBleStatus)bleStatus;
+
+
+/**
+ 设置设备系统类型（iOS）
+ @note  ⚠️重要：每次连接成功都必须设置
+ */
++ (void)setDeviceSystemTypeWithCallback:(LWResultCallback)callback;
+
+
+/**
+ 获取设备配置信息
+ @param callback                object设备配置信息
+ */
++ (void)getDeviceConfigInfoWithCallback:(LWResultDeviceConfigCallback)callback;
+
+
+/**
+ 设置设备系统时间
+ @note  ⚠️跟随本地系统时间
+ */
++ (void)setDeviceSystemTimeWithCallback:(LWResultCallback)callback;
+
+
+/**
+ 设置设备系统语言
+ @param language                语言类型
+ */
++ (void)setDeviceSystemLanguage:(LWLanguageType)language withCallback:(LWResultCallback)callback;
+
+
+/**
+ 设置设备系统音量
+ @param volume                  音量值（0-16）
+ */
++ (void)setDeviceSystemVolume:(int)volume withCallback:(LWResultCallback)callback;
+
+
+/**
+ 获取设备系统音量
+ @param callback                number数值：音量值
+ */
++ (void)getDeviceSystemVolumeWithCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 绑定宠物
+ @param identifier              绑定标识符
+ @param callback                number数值：0表示绑定成功，其他则表示失败
+ */
++ (void)bindAipetWithIdentifier:(NSString * _Nonnull)identifier withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 解绑宠物
+ @param identifier              解绑标识符
+ @param callback                number数值：0表示解绑成功，其他则表示失败
+ */
++ (void)unbindAipetWithIdentifier:(NSString * _Nonnull)identifier withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 获取宠物状态
+ @param callback                object宠物状态
+ */
++ (void)getAipetStatusWithCallback:(LWResultAipetStatusCallback)callback;
+
+
+/**
+ 设置宠物进化
+ @param evolvedModel            进化信息
+ @param callback                number数值：0表示进化成功，其他则表示失败
+ */
++ (void)setEvolvedAipetWithModel:(LWAipetEvolvedModel * _Nonnull)evolvedModel withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置宠物奖励
+ @param aipetReward             奖励信息
+ @param callback                number数值：0表示奖励成功，其他则表示失败
+ */
++ (void)setAipetRewardWithModel:(LWAipetRewardModel * _Nonnull)aipetReward withCallback:(LWResultCallback)callback;
+
+
+/**
+ 设置今天天气
+ @param weatherModel            天气信息
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setTodayWeatherWithModel:(LWTodayWeatherModel * _Nonnull)weatherModel withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置小时天气
+ @param weatherModel            天气信息
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setHourWeatherWithModel:(LWHourWeatherModel * _Nonnull)weatherModel withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 添加新动画
+ @param animationModel          动画信息
+ @param callback                number数值：0表示添加成功，其他则表示失败
+ */
++ (void)addNewAnimationWithModel:(LWAnimationModel * _Nonnull)animationModel withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置设备停止录音
+ */
++ (void)setdeviceStopAudioRecordingWithCallback:(LWResultCallback)callback;
+
+
+/**
+ 设置车载模式
+ @param open                    车载模式：YES表示开启，NO表示关闭
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setCarMode:(BOOL)open withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 获取车载模式
+ @param callback                number数值：0表示关闭，1表示开启
+ */
++ (void)getCarModeWithCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置离线语音授权码
+ @param authorizeCode           授权码
+ @param callback                number数值：0表示授权成功，其他则表示失败
+ */
++ (void)setOfflineVoiceAuthorizeCode:(NSString * _Nonnull)authorizeCode withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置节日动画
+ @param holidayAnimationModel   节日动画
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setHolidayAnimationWithModel:(LWHolidayAnimationModel * _Nonnull)holidayAnimationModel withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置设备地区
+ @param areaCode                地区编号
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setDeviceAreaCode:(NSInteger)areaCode withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置AI对话语音情绪
+ @param moodCode                情绪编号
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setAiDialogueVoiceMoodCode:(NSInteger)moodCode withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 从服务器请求星历文件
+ */
++ (void)requestEphemerisFileWithCallback:(LWResultEphemerisCallback)callback;
+
+
+/**
+ 文件上传协商
+ @param negotModel              文件协商信息
+ @note  ⚠️先调用此API协商，根据结果再开始上传文件 详@link startUploadingFilesWithModel:withProgressCallback:withResultCallback:
+ */
++ (void)fileUploadNegotiationWithModel:(LWUploadFileNegotModel * _Nonnull)negotModel withCallback:(LWResultUploadNegotCallback)callback;
+
+/**
+ 开始上传文件
+ @param uploadFileModel         文件上传信息
+ @param progressCallback        上传进度回调，progress进度0-100
+ @param callback                文件上传结果，error为nil时表示成功
+ @note  ⚠️调用此API之前，需要先协商 详@link fileUploadNegotiationWithModel:withCallback:
+ */
++ (void)startUploadingFilesWithModel:(LWUploadFileModel * _Nonnull)uploadFileModel withProgressCallback:(LWResultProgressCallback)progressCallback withCallback:(LWResultCallback)callback;
+
+@end
+
+NS_ASSUME_NONNULL_END
