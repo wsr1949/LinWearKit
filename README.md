@@ -61,7 +61,7 @@ Privacy - Bluetooth Always Usage Description
 
 ## 三、TARGRTS 添加 Capability
 
-##### 1. 后台模式`Background Modes`勾选
+##### 1. 后台模式 `Background Modes` 勾选
 ```objective-c 
 Uses Bluetooth LE accessories
 ```
