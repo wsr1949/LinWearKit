@@ -170,7 +170,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置设备停止录音
  */
-+ (void)setdeviceStopAudioRecordingWithCallback:(LWResultCallback)callback;
++ (void)setDeviceStopAudioRecordingWithCallback:(LWResultCallback)callback;
 
 
 /**
