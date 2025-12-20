@@ -1,0 +1,6 @@
+${PODS_ROOT}/Target Support Files/Pods-LinWearKit_Demo/Pods-LinWearKit_Demo-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework
+${BUILT_PRODUCTS_DIR}/Protobuf/Protobuf.framework
+${BUILT_PRODUCTS_DIR}/Realm/Realm.framework
+${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework
+${BUILT_PRODUCTS_DIR}/libopus/libopus.framework

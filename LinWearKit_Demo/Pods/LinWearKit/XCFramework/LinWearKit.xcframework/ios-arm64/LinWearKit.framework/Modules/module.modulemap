@@ -1,0 +1,6 @@
+framework module LinWearKit {
+  umbrella header "LinWearKit.h"
+  export *
+
+  module * { export * }
+}

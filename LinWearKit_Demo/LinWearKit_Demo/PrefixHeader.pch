@@ -1,0 +1,82 @@
+//
+//  PrefixHeader.pch
+//  LinWearKit_Demo
+//
+//  Created by LINWEAR on 2025-12-16.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import "NSObject+Tool.h"
+
+#import <LinWearKit/LinWearKit.h>
+
+#import <Realm/Realm.h>
+#import <Masonry/Masonry.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+
+#import "LWBaseNavigationController.h"
+#import "LWBaseViewController.h"
+#import "UIButton+Expand.h"
+#import "RLMObject+Expand.h"
+#import "RLMDeviceModel.h"
+#import "LWHUD.h"
+
+/// 弱引用
+#define LWEAKSELF                           __weak typeof(self) weakSelf = self;
+
+/// 屏幕宽度，会根据横竖屏的变化而变化
+#define SCREEN_WIDTH                        ([[UIScreen mainScreen] bounds].size.width)
+/// 屏幕高度，会根据横竖屏的变化而变化
+#define SCREEN_HEIGHT                       ([[UIScreen mainScreen] bounds].size.height)
+
+/// 颜色RGB
+#define LWColorMakeWithRGBA(r, g, b, a)     [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:a/1.0]
+/// 主题色
+#define LWColorTheme                        LWColorMakeWithRGBA(148, 0, 211, 1)
+/// 字体颜色，跟随系统：Light黑 Dark白
+#define LWColorText                         [self textColor]
+/// 背景颜色，跟随系统：Light白 Dark黑
+#define LWColorBackground                   [self bgColor]
+
+/// 字体-细
+#define LWFontMake(size)                    [UIFont systemFontOfSize:size]
+/// 字体-粗
+#define LWFontBoldMake(size)                [UIFont boldSystemFontOfSize:size]
+
+/// 图片
+#define UIImageMake(icon)                   [UIImage imageNamed:icon]
+
+/// GCD主队列(主线程执行)
+#define GCD_MAIN_QUEUE(block)               dispatch_async(dispatch_get_main_queue(), block)
+
+/// 弱引用
+#define LWEAKSELF                           __weak typeof(self) weakSelf = self;
+
+/// 字符串是否为空
+#define IF_NULL(string)                     (( ![string isKindOfClass:[NSString class]]) || (string == nil) || [string isEqualToString:@""] || [string isKindOfClass:[NSNull class]] || [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].length == 0)
+
+/// 字符串防空处理
+#define IF_NULL_TO_STRING(string)           (IF_NULL(string) ? @"" : string)
+
+/// NSPredicate 对象属性名转字符串
+#define K_Predicate_Properky(CLASS, PROPERTY) \
+({ \
+    __unused CLASS *__obj = nil; \
+    __unused __typeof__(__obj.PROPERTY) __prop = __obj.PROPERTY; \
+    NSStringFromSelector(@selector(PROPERTY)); \
+})
+
+/// 发现外围设备通知，object 为 LWPeripheralModel
+#define LWDiscoverPeripheralNotify          @"LWDiscoverPeripheralNotify"
+/// 设备连接状态通知，object 为 LWBleStatus
+#define LWConnectionStatusNotify            @"LWConnectionStatusNotify"
+
+/// 绑定宠物标识符（只是测试用，实际应根据自身业务设置）
+#define LWBindAipetIdentifier_Test          @"test123456"
+
+#endif /* PrefixHeader_pch */

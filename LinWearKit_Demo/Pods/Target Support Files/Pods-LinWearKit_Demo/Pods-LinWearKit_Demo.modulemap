@@ -1,0 +1,6 @@
+framework module Pods_LinWearKit_Demo {
+  umbrella header "Pods-LinWearKit_Demo-umbrella.h"
+
+  export *
+  module * { export * }
+}
