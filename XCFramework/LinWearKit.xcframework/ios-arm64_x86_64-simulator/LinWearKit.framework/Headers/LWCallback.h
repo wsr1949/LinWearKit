@@ -47,6 +47,14 @@ typedef void(^LWResultProgressCallback)(int progress);
 
 
 /**
+ 离线语音授权码信息回调
+ @param object              离线语音授权码
+ @param error               错误信息，为nil时表示成功
+ */
+typedef void(^LWResultOfflineVoiceAuthCodeCallback)(NSString * _Nullable object, NSError * _Nullable error);
+
+
+/**
  星历文件信息回调
  @param object              星历文件本地路径
  @param error               错误信息，为nil时表示成功

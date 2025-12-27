@@ -4,3 +4,8 @@ framework module LinWearKit {
 
   module * { export * }
 }
+
+module LinWearKit.Swift {
+  header "LinWearKit-Swift.h"
+  requires objc
+}

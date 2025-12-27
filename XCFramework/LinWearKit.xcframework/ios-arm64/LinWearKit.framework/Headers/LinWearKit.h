@@ -189,6 +189,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
+ 从服务器请求离线语音授权码
+ @param mac                     设备Mac地址
+ @param lang                    离线语音语种简写：如英文en
+ */
++ (void)requestOfflineVoiceAuthCodeWithMac:(NSString * _Nonnull)mac withLang:(NSString * _Nonnull)lang withCallback:(LWResultOfflineVoiceAuthCodeCallback)callback;
+
+
+/**
  设置离线语音授权码
  @param authorizeCode           授权码
  @param callback                number数值：0表示授权成功，其他则表示失败
