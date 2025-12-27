@@ -27,6 +27,7 @@ Pod::Spec.new do |spec|
 
   spec.pod_target_xcconfig      = { 
                                     'OTHER_LDFLAGS' => '-lObjC',
+                                    'BUILD_LIBRARY_FOR_DISTRIBUTION' => 'YES'
                                   }
   
 end
