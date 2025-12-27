@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
 
   spec.name                     = "LinWearKit"
-  spec.version                  = "1.0.0"
+  spec.version                  = "1.0.1"
   spec.summary                  = "LinWearKit 智能设备 SDK for iOS"
   spec.description              = <<-DESC
                                   LinWearKit 智能设备的 iOS 框架，负责与智能设备通信等功能的封装。
@@ -18,6 +18,8 @@ Pod::Spec.new do |spec|
   
   spec.dependency 'Protobuf'
   spec.dependency 'libopus'
+  spec.dependency 'Alamofire'
+  spec.dependency 'MJExtension'
 
   spec.subspec 'Basic' do |basicSpec|
     basicSpec.vendored_frameworks   = 'XCFramework/LinWearKit.xcframework'
