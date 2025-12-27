@@ -16,7 +16,7 @@
  
  版本记录：
  
- project    2025-12-27  Version:1.0.1   Build:2025122701
+ project    2025-12-27  Version:1.0.1   Build:2025122702
             1.新增请求离线语音授权码 参@link requestOfflineVoiceAuthCodeWithMac:withLang:withCallback:
  
  project    2025-12-20  Version:1.0.0   Build:2025122001
@@ -24,7 +24,6 @@
  */
 
 #import <CoreBluetooth/CoreBluetooth.h>
-#import <Alamofire/Alamofire-Swift.h>
 #import <LinWearKit/LWMacro.h>
 
 #import <LinWearKit/LWPeripheralModel.h>

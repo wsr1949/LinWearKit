@@ -15,6 +15,16 @@
         ]
       },
       {
+        "kind": "Import",
+        "name": "Alamofire",
+        "printedName": "Alamofire",
+        "declKind": "Import",
+        "moduleName": "LinWearKit",
+        "declAttributes": [
+          "AccessControl"
+        ]
+      },
+      {
         "kind": "TypeDecl",
         "name": "LWAlamofireKit",
         "printedName": "LWAlamofireKit",
@@ -272,8 +282,7 @@
         "declAttributes": [
           "AccessControl",
           "ObjC",
-          "Custom",
-          "RawDocComment"
+          "Custom"
         ],
         "superclassUsr": "c:objc(cs)NSObject",
         "inheritsConvenienceInitializers": true,
