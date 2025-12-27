@@ -24,6 +24,7 @@
  */
 
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <Alamofire/Alamofire-Swift.h>
 #import <LinWearKit/LWMacro.h>
 
 #import <LinWearKit/LWPeripheralModel.h>
