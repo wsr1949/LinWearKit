@@ -22,7 +22,7 @@ Pod::Spec.new do |spec|
   spec.dependency 'MJExtension'
 
   spec.subspec 'Basic' do |basicSpec|
-    basicSpec.vendored_frameworks   = 'XCFramework/LinWearKit.xcframework'
+    basicSpec.vendored_frameworks   = 'SDK/LinWearKit.framework'
   end
 
   spec.pod_target_xcconfig      = { 
