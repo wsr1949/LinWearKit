@@ -15,15 +15,14 @@ Pod::Spec.new do |spec|
   spec.documentation_url        = 'https://github.com/wsr1949/LinWearKit/blob/main/README.md'
   spec.requires_arc             = true
   spec.frameworks               = 'CoreBluetooth'
+
+  spec.vendored_frameworks      = 'XCFramework/LinWearKit.xcframework'
+  spec.source_files             = 'Sources/**/*.swift'
   
   spec.dependency 'Protobuf'
   spec.dependency 'libopus'
   spec.dependency 'Alamofire'
   spec.dependency 'MJExtension'
-
-  spec.subspec 'Basic' do |basicSpec|
-    basicSpec.vendored_frameworks   = 'SDK/LinWearKit.framework'
-  end
 
   spec.pod_target_xcconfig      = { 
                                     'OTHER_LDFLAGS' => '-lObjC',
