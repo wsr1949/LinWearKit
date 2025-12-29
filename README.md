@@ -495,7 +495,7 @@ Uses Bluetooth LE accessories
 
 # 版本记录🚀
 ```ruby
- project    2025-12-27  Version:1.0.1   Build:2025122701
+ project    2025-12-29  Version:1.0.1   Build:2025122901
             1.新增请求离线语音授权码 参@link requestOfflineVoiceAuthCodeWithMac:withLang:withCallback:
 
  project    2025-12-20  Version:1.0.0   Build:2025122001
