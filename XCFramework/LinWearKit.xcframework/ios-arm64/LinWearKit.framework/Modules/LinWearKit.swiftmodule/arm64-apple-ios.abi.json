@@ -19,10 +19,7 @@
         "name": "Alamofire",
         "printedName": "Alamofire",
         "declKind": "Import",
-        "moduleName": "LinWearKit",
-        "declAttributes": [
-          "AccessControl"
-        ]
+        "moduleName": "LinWearKit"
       },
       {
         "kind": "TypeDecl",
