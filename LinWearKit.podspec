@@ -17,11 +17,9 @@ Pod::Spec.new do |spec|
   spec.frameworks               = 'CoreBluetooth'
 
   spec.vendored_frameworks      = 'XCFramework/LinWearKit.xcframework'
-  spec.source_files             = 'Sources/**/*.swift'
   
   spec.dependency 'Protobuf'
   spec.dependency 'libopus'
-  spec.dependency 'Alamofire'
   spec.dependency 'MJExtension'
 
   spec.pod_target_xcconfig      = { 
