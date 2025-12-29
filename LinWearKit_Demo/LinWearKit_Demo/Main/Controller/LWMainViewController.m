@@ -294,8 +294,19 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     }
     else if ([title isEqualToString:@"设置离线语音授权码"])
     {
-        [LinWearKit setOfflineVoiceAuthorizeCode:@"填写有效的授权码" withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
-            NSLog(@"设置离线语音授权码 %@", error ? @"失败" : @"成功");
+        // 获取连接记录
+        RLMDeviceModel *deviceModel = RLMDeviceModel.allObjects.lastObject;
+        
+        // 请求离线语音授权码
+        [LinWearKit requestOfflineVoiceAuthCodeWithMac:deviceModel.deviceMac withLang:@"en" withCallback:^(NSString * _Nullable object, NSError * _Nullable error) {
+            
+            NSLog(@"请求离线语音授权码 %@", error ? @"失败" : @"成功");
+            
+            if (IF_NULL(object)) return;
+            
+            [LinWearKit setOfflineVoiceAuthorizeCode:object withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+                NSLog(@"设置离线语音授权码 %@", error ? @"失败" : @"成功");
+            }];
         }];
     }
     else if ([title isEqualToString:@"设置节日动画"])
@@ -325,7 +336,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     }
     else if ([title isEqualToString:@"请求上传星历文件"])
     {
-        // 请求下载星历文件
+        // 请求星历文件
         [LinWearKit requestEphemerisFileWithCallback:^(NSString * _Nullable object, NSError * _Nullable error) {
             NSLog(@"请求星历文件 %@", error ? @"失败" : @"成功");
             

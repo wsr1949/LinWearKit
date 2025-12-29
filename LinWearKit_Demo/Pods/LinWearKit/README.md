@@ -3,7 +3,7 @@
 <p align="left">
 
 <a href="https://github.com/wsr1949/LinWearKit.git">
-    <img src="https://img.shields.io/badge/Release-1.0.0 -Green.svg">
+    <img src="https://img.shields.io/badge/Release-1.0.1 -Green.svg">
 </a>
 <a href="https://github.com/wsr1949/LinWearKit.git">
     <img src="https://img.shields.io/badge/Support-iOS14.0+ -blue.svg">
@@ -61,7 +61,7 @@ Privacy - Bluetooth Always Usage Description
 
 ## 三、TARGRTS 添加 Capability
 
-##### 1. 后台模式`Background Modes`勾选
+##### 1. 后台模式 `Background Modes` 勾选
 ```objective-c 
 Uses Bluetooth LE accessories
 ```
@@ -409,6 +409,16 @@ Uses Bluetooth LE accessories
 + (void)getCarModeWithCallback:(LWResultNumberCallback)callback;
 ```
 
+##### 从服务器请求离线语音授权码
+```ruby
+/**
+ 从服务器请求离线语音授权码
+ @param mac                     设备Mac地址
+ @param lang                    离线语音语种简写：如英文en
+ */
++ (void)requestOfflineVoiceAuthCodeWithMac:(NSString * _Nonnull)mac withLang:(NSString * _Nonnull)lang withCallback:(LWResultOfflineVoiceAuthCodeCallback)callback;
+```
+
 ##### 设置离线语音授权码
 ```ruby
 /**
@@ -485,6 +495,9 @@ Uses Bluetooth LE accessories
 
 # 版本记录🚀
 ```ruby
+ project    2025-12-29  Version:1.0.1   Build:2025122901
+            1.新增请求离线语音授权码 参@link requestOfflineVoiceAuthCodeWithMac:withLang:withCallback:
+
  project    2025-12-20  Version:1.0.0   Build:2025122001
             1.首版
 ```

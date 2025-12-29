@@ -2,14 +2,12 @@ PODS:
   - libopus (1.1):
     - libopus/float (= 1.1)
   - libopus/float (1.1)
-  - LinWearKit (1.0.0):
+  - LinWearKit (1.0.1):
     - libopus
-    - LinWearKit/Basic (= 1.0.0)
-    - Protobuf
-  - LinWearKit/Basic (1.0.0):
-    - libopus
+    - MJExtension
     - Protobuf
   - Masonry (1.1.0)
+  - MJExtension (3.4.2)
   - Protobuf (3.29.5)
   - Realm (20.0.3):
     - Realm/Headers (= 20.0.3)
@@ -28,6 +26,7 @@ SPEC REPOS:
   https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
     - libopus
     - Masonry
+    - MJExtension
     - Protobuf
     - Realm
     - SVProgressHUD
@@ -38,13 +37,14 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LinWearKit:
-    :commit: 26903dbb4e69deba161f4a4e8378dea1b0bd3999
+    :commit: 9551b944ed0d65b05a8fd0f1d0bd5e8cf23fa207
     :git: https://github.com/wsr1949/LinWearKit.git
 
 SPEC CHECKSUMS:
   libopus: ad5f060dcb8f30f139777244d70f9111f1c80863
-  LinWearKit: 0ce1102017b89fe6a3e70a38645c205d68b5009d
+  LinWearKit: 6034f1bb4e408ffc37e1f82e4050314210e7e222
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJExtension: e97d164cb411aa9795cf576093a1fa208b4a8dd8
   Protobuf: 164aea2ae380c3951abdc3e195220c01d17400e0
   Realm: 853e5089d6042dff807bda000277eadfe2da93d2
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
