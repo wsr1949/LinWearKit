@@ -70,13 +70,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 /**
- 获取设备配置信息
- @param callback                object设备配置信息
- */
-+ (void)getDeviceConfigInfoWithCallback:(LWResultDeviceConfigCallback)callback;
-
-
-/**
  设置设备系统时间
  @note  ⚠️跟随本地系统时间
  */
@@ -102,6 +95,20 @@ NS_ASSUME_NONNULL_BEGIN
  @param callback                number数值：音量值
  */
 + (void)getDeviceSystemVolumeWithCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置设备屏幕亮度
+ @param brightness              亮度值：0-100
+ */
++ (void)setDeviceScreenBrightness:(int)brightness withCallback:(LWResultCallback)callback;
+
+
+/**
+ 获取设备屏幕亮度
+ @param callback                number数值：亮度值
+ */
++ (void)getDeviceScreenBrightnessWithCallback:(LWResultNumberCallback)callback;
 
 
 /**
@@ -241,6 +248,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (void)fileUploadNegotiationWithModel:(LWUploadFileNegotModel * _Nonnull)negotModel withCallback:(LWResultUploadNegotCallback)callback;
 
+
 /**
  开始上传文件
  @param uploadFileModel         文件上传信息
@@ -249,6 +257,74 @@ NS_ASSUME_NONNULL_BEGIN
  @note  ⚠️调用此API之前，需要先协商 详@link fileUploadNegotiationWithModel:withCallback:
  */
 + (void)startUploadingFilesWithModel:(LWUploadFileModel * _Nonnull)uploadFileModel withProgressCallback:(LWResultProgressCallback)progressCallback withCallback:(LWResultCallback)callback;
+
+
+/**
+ 设备AI语音播放控制
+ @param play                    播放控制，YES表示开始播放，NO表示结束播放
+ */
++ (void)deviceAiVoicePlaybackControl:(BOOL)play withCallback:(LWResultCallback)callback;
+
+
+/**
+ 获取设备版本信息
+ @param callback                object设备版本信息
+ */
++ (void)getDeviceVersionInfoWithCallback:(LWResultDeviceVersionCallback)callback;
+
+
+/**
+ 设置KWS命令词开关状态
+ @param code                    KWS命令词编号
+ @param status                  开关状态，YES表示打开，NO表示关闭
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setKWSCommandWord:(NSInteger)code status:(BOOL)status withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置POI打卡地列表
+ @param list                    POI打卡地信息
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setPoiCheckInSpotsWithList:(NSArray <LWCheckInSpotsModel *> * _Nonnull)list withCallback:(LWResultCheckInSpotsCallback)callback;
+
+
+/**
+ 设置勿扰模式
+ @param mode                    勿扰开关，YES表示打开，NO表示关闭
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setDoNotDisturbMode:(BOOL)mode withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 获取勿扰模式
+ @param callback                number数值：0表示关闭，1表示开启
+ */
++ (void)getDoNotDisturbModeWithCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 设置设备A2DP连接
+ @param connect                 事件，YES表示连接A2DP，NO表示断开A2DP
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setDeviceA2DPConnection:(BOOL)connect withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 响应设备交互
+ @param error_code              错误码，0表示响应成功，其他则表示失败
+ */
++ (void)respondDeviceInteraction:(NSInteger)error_code withCallback:(LWResultCallback)callback;
+
+
+/**
+ 调试模式命令
+ */
++ (void)debugModeWithCommand:(LWDebugModeCommand)command withCallback:(LWResultCallback)callback;
+
 
 @end
 

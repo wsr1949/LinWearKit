@@ -16,6 +16,25 @@
  
  版本记录：
  
+ project    2026-01-08  Version:1.0.2   Build:2026010801
+            1.更新「设备开始POI打卡」委托代理方法，增加打卡类型和对端设备信息 参@link LWDelegate deviceDidStartPoiCheckInWithTimeOut...
+            2.新增「设备资源缺失」委托代理方法 参@link LWDelegate deviceResourcesMissingWithModel:
+            3.移除「抽奖动画编号」参数 参@link LWAipetRewardModel
+            3.更新「设置节日动画」方法，增加'交互音频编号'参数 参@link LWHolidayAnimationModel
+            4.新增「设置设备屏幕亮度」方法 参@link setDeviceScreenBrightness:withCallback:
+            5.新增「获取设备屏幕亮度」方法 参@link getDeviceScreenBrightnessWithCallback:
+            6.新增「设备AI语音播放控制」方法 参@link deviceAiVoicePlaybackControl:withCallback:
+            7.移除「获取设备配置信息」方法
+            8.新增「获取设备版本信息」方法 参@link getDeviceVersionInfoWithCallback:
+            9.新增「设置KWS命令词开关状态」方法 参@link setKWSCommandWord:withCallback:
+            10.新增「设置POI打卡地列表」方法 参@link setPoiCheckInSpotsWithList:withCallback:
+            11.新增「设置勿扰模式」方法 参@link setDoNotDisturbMode:withCallback:
+            12.新增「获取勿扰模式」方法 参@link getDoNotDisturbModeWithCallback:
+            13.新增「设备发起交互」委托代理方法 参@link LWDelegate deviceInitiatesInteractionWithType:latitude:longitude:
+            14.新增「设置设备A2DP连接」方法 参@link setDeviceA2DPConnection:withCallback:
+            15.新增「响应设备交互」方法 参@link respondDeviceInteraction:withCallback:
+            16.新增「调试模式命令」方法 参@link debugModeWithCommand:withCallback:
+ 
  project    2025-12-29  Version:1.0.1   Build:2025122901
             1.新增请求离线语音授权码 参@link requestOfflineVoiceAuthCodeWithMac:withLang:withCallback:
  
@@ -27,7 +46,6 @@
 #import <LinWearKit/LWMacro.h>
 
 #import <LinWearKit/LWPeripheralModel.h>
-#import <LinWearKit/LWDeviceConfigModel.h>
 #import <LinWearKit/LWAipetStatusModel.h>
 #import <LinWearKit/LWAipetActionModel.h>
 #import <LinWearKit/LWAipetEvolvedModel.h>
@@ -40,6 +58,10 @@
 #import <LinWearKit/LWUploadFileModel.h>
 #import <LinWearKit/LWUploadFileNegotModel.h>
 #import <LinWearKit/LWUploadNegotModel.h>
+#import <LinWearKit/LWDeviceVersionModel.h>
+#import <LinWearKit/LWDeviceResourcesModel.h>
+#import <LinWearKit/LWCheckInSpotsModel.h>
+#import <LinWearKit/LWCheckInSpotsResultModel.h>
 
 #import <LinWearKit/LWDelegate.h>
 #import <LinWearKit/LWCallback.h>

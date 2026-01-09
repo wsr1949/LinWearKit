@@ -83,8 +83,10 @@
 /**
  设备开始POI打卡
  @param timeOut                 打卡超时时间
+ @param type                    打卡类型
+ @param device                  双人打卡时，对端设备
  */
-- (void)deviceDidStartPoiCheckInWithTimeOut:(NSInteger)timeOut;
+- (void)deviceDidStartPoiCheckInWithTimeOut:(NSInteger)timeOut type:(LWPoiCheckInType)type device:(NSString * _Nullable)device;
 
 
 /**
@@ -93,6 +95,25 @@
  */
 - (void)devicePoiCheckInUpdateWithModel:(LWPoiCheckInModel * _Nonnull)poiCheckInModel;
 
+
+/**
+ 设备资源缺失
+ @param resourcesModel          设备资源信息
+ */
+- (void)deviceResourcesMissingWithModel:(LWDeviceResourcesModel * _Nonnull)resourcesModel;
+
+
+/**
+ 设备发起交互
+ @param interactionType         交互类型
+ @param latitude                纬度，当为Poi类型时返回
+ @param longitude               经度，当为Poi类型时返回
+ 
+ @note  当TTS生成后需要播放时，为确保音频和动画一致性，成功响应交互后再播放TTS
+        1. 先设置连接A2DP 详@link 【LinWearKit】setDeviceA2DPConnection:withCallback:
+        2. A2DP连接成功后再响应交互 详@link 【LinWearKit】respondDeviceInteraction:withCallback:
+ */
+- (void)deviceInitiatesInteractionWithType:(LWInteractionType)interactionType latitude:(double)latitude longitude:(double)longitude;
 
 @end
 
