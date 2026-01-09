@@ -24,14 +24,6 @@ typedef void(^LWResultNumberCallback)(NSNumber * _Nullable number, NSError * _Nu
 
 
 /**
- 设备配置信息结果回调
- @param object              设备配置信息
- @param error               错误信息，为nil时表示成功
- */
-typedef void(^LWResultDeviceConfigCallback)(LWDeviceConfigModel * _Nullable object, NSError * _Nullable error);
-
-
-/**
  宠物状态结果回调
  @param object              宠物状态
  @param error               错误信息，为nil时表示成功
@@ -68,6 +60,22 @@ typedef void(^LWResultEphemerisCallback)(NSString * _Nullable object, NSError * 
  @param error               错误信息，为nil时表示成功
  */
 typedef void(^LWResultUploadNegotCallback)(LWUploadNegotModel * _Nullable object, NSError * _Nullable error);
+
+
+/**
+ 设备版本信息结果回调
+ @param object              设备版本信息
+ @param error               错误信息，为nil时表示成功
+ */
+typedef void(^LWResultDeviceVersionCallback)(LWDeviceVersionModel * _Nullable object, NSError * _Nullable error);
+
+
+/**
+ 打卡点信息结果回调
+ @param object              打卡点信息
+ @param error               错误信息，为nil时表示成功
+ */
+typedef void(^LWResultCheckInSpotsCallback)(LWCheckInSpotsResultModel * _Nullable object, NSError * _Nullable error);
 
 
 #endif /* LWCallback_h */

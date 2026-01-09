@@ -141,4 +141,39 @@ typedef NS_ENUM(NSInteger, LWFileUploadNegotType)
 } NS_SWIFT_NAME(LWFileUploadNegotType);
 
 
+/// POI打卡类型
+typedef NS_ENUM(NSInteger, LWPoiCheckInType)
+{
+    /// 单人打卡
+    LWPoiCheckInType_Singles        = 0,
+    /// 双人打卡
+    LWPoiCheckInType_Doubles        = 1,
+    
+} NS_SWIFT_NAME(LWPoiCheckInType);
+
+
+/// 交互类型
+typedef NS_ENUM(NSInteger, LWInteractionType)
+{
+    /// 根据当前时间段，生成对应TTS
+    LWInteractionType_Time          = 0,
+    /// 查询当前天气，生成对应TTS
+    LWInteractionType_Weather       = 1,
+    /// 查询当天日期，生成对应节日TTS
+    LWInteractionType_Festival      = 2,
+    /// 需要上传Poi经纬度位置
+    LWInteractionType_Poi           = 3,
+    
+} NS_SWIFT_NAME(LWInteractionType);
+
+
+/// 调试模式命令
+typedef NS_ENUM(NSInteger, LWDebugModeCommand)
+{
+    /// 恢复宠物默认形象
+    LWDebugModeCommand_RestorePet   = 0,
+    /// 更多代拓展...
+    
+} NS_SWIFT_NAME(LWDebugModeCommand);
+
 #endif /* LWMacro_h */

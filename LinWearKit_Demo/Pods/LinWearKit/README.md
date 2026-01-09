@@ -3,7 +3,7 @@
 <p align="left">
 
 <a href="https://github.com/wsr1949/LinWearKit.git">
-    <img src="https://img.shields.io/badge/Release-1.0.1 -Green.svg">
+    <img src="https://img.shields.io/badge/Release-1.0.2 -Green.svg">
 </a>
 <a href="https://github.com/wsr1949/LinWearKit.git">
     <img src="https://img.shields.io/badge/Support-iOS14.0+ -blue.svg">
@@ -180,8 +180,10 @@ Uses Bluetooth LE accessories
 /**
  设备开始POI打卡
  @param timeOut                 打卡超时时间
+ @param type                    打卡类型
+ @param device                  双人打卡时，对端设备
  */
-- (void)deviceDidStartPoiCheckInWithTimeOut:(NSInteger)timeOut;
+- (void)deviceDidStartPoiCheckInWithTimeOut:(NSInteger)timeOut type:(LWPoiCheckInType)type device:(NSString * _Nullable)device;
 ```
 
 ##### 设备POI打卡更新
@@ -193,6 +195,29 @@ Uses Bluetooth LE accessories
 - (void)devicePoiCheckInUpdateWithModel:(LWPoiCheckInModel * _Nonnull)poiCheckInModel;
 ```
 
+##### 设备资源缺失
+```ruby
+/**
+ 设备资源缺失
+ @param resourcesModel          设备资源信息
+ */
+- (void)deviceResourcesMissingWithModel:(LWDeviceResourcesModel * _Nonnull)resourcesModel;
+```
+
+##### 设备发起交互
+```ruby
+/**
+ 设备发起交互
+ @param interactionType         交互类型
+ @param latitude                纬度，当为Poi类型时返回
+ @param longitude               经度，当为Poi类型时返回
+ 
+ @note  当TTS生成后需要播放时，为确保音频和动画一致性，成功响应交互后再播放TTS
+        1. 先设置连接A2DP 详@link 【LinWearKit】setDeviceA2DPConnection:withCallback:
+        2. A2DP连接成功后再响应交互 详@link 【LinWearKit】respondDeviceInteraction:withCallback:
+ */
+- (void)deviceInitiatesInteractionWithType:(LWInteractionType)interactionType latitude:(double)latitude longitude:(double)longitude;
+```
 
 ## 四、命令方法
 
@@ -258,15 +283,6 @@ Uses Bluetooth LE accessories
 + (void)setDeviceSystemTypeWithCallback:(LWResultCallback)callback;
 ```
 
-##### 获取设备配置信息
-```ruby
-/**
- 获取设备配置信息
- @param callback                object设备配置信息
- */
-+ (void)getDeviceConfigInfoWithCallback:(LWResultDeviceConfigCallback)callback;
-```
-
 ##### 设置设备系统时间
 ```ruby
 /**
@@ -301,6 +317,24 @@ Uses Bluetooth LE accessories
  @param callback                number数值：音量值
  */
 + (void)getDeviceSystemVolumeWithCallback:(LWResultNumberCallback)callback;
+```
+
+##### 设置设备屏幕亮度
+```ruby
+/**
+ 设置设备屏幕亮度
+ @param brightness              亮度值：0-100
+ */
++ (void)setDeviceScreenBrightness:(int)brightness withCallback:(LWResultCallback)callback;
+```
+
+##### 获取设备屏幕亮度
+```ruby
+/**
+ 获取设备屏幕亮度
+ @param callback                number数值：亮度值
+ */
++ (void)getDeviceScreenBrightnessWithCallback:(LWResultNumberCallback)callback;
 ```
 
 #### 绑定宠物
@@ -489,12 +523,115 @@ Uses Bluetooth LE accessories
 + (void)startUploadingFilesWithModel:(LWUploadFileModel * _Nonnull)uploadFileModel withProgressCallback:(LWResultProgressCallback)progressCallback withCallback:(LWResultCallback)callback;
 ```
 
+##### 设备AI语音播放控制
+```ruby
+/**
+ 设备AI语音播放控制
+ @param play                    播放控制，YES表示开始播放，NO表示结束播放
+ */
++ (void)deviceAiVoicePlaybackControl:(BOOL)play withCallback:(LWResultCallback)callback;
+```
+
+##### 获取设备版本信息
+```ruby
+/**
+ 获取设备版本信息
+ @param callback                object设备版本信息
+ */
++ (void)getDeviceVersionInfoWithCallback:(LWResultDeviceVersionCallback)callback;
+```
+
+##### 设置KWS命令词开关状态
+```ruby
+/**
+ 设置KWS命令词开关状态
+ @param code                    KWS命令词编号
+ @param status                  开关状态，YES表示打开，NO表示关闭
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setKWSCommandWord:(NSInteger)code status:(BOOL)status withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 设置POI打卡地列表
+```ruby
+/**
+ 设置POI打卡地列表
+ @param list                    POI打卡地信息
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setPoiCheckInSpotsWithList:(NSArray <LWCheckInSpotsModel *> * _Nonnull)list withCallback:(LWResultCheckInSpotsCallback)callback;
+```
+
+##### 设置勿扰模式
+```ruby
+/**
+ 设置勿扰模式
+ @param mode                    勿扰开关，YES表示打开，NO表示关闭
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setDoNotDisturbMode:(BOOL)mode withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 获取勿扰模式
+```ruby
+/**
+ 获取勿扰模式
+ @param callback                number数值：0表示关闭，1表示开启
+ */
++ (void)getDoNotDisturbModeWithCallback:(LWResultNumberCallback)callback;
+```
+
+##### 设置设备A2DP连接
+```ruby
+/**
+ 设置设备A2DP连接
+ @param connect                 事件，YES表示连接A2DP，NO表示断开A2DP
+ @param callback                number数值：0表示设置成功，其他则表示失败
+ */
++ (void)setDeviceA2DPConnection:(BOOL)connect withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 响应设备交互
+```ruby
+/**
+ 响应设备交互
+ @param error_code              错误码，0表示响应成功，其他则表示失败
+ */
++ (void)respondDeviceInteraction:(NSInteger)error_code withCallback:(LWResultCallback)callback;
+```
+
+##### 调试模式命令
+```ruby
+/**
+ 调试模式命令
+ */
++ (void)debugModeWithCommand:(LWDebugModeCommand)command withCallback:(LWResultCallback)callback;
+```
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 # 版本记录🚀
 ```ruby
+ project    2026-01-08  Version:1.0.2   Build:2026010801
+            1.更新「设备开始POI打卡」委托代理方法，增加打卡类型和对端设备信息 参@link LWDelegate deviceDidStartPoiCheckInWithTimeOut...
+            2.新增「设备资源缺失」委托代理方法 参@link LWDelegate deviceResourcesMissingWithModel:
+            3.移除「抽奖动画编号」参数 参@link LWAipetRewardModel
+            3.更新「设置节日动画」方法，增加'交互音频编号'参数 参@link LWHolidayAnimationModel
+            4.新增「设置设备屏幕亮度」方法 参@link setDeviceScreenBrightness:withCallback:
+            5.新增「获取设备屏幕亮度」方法 参@link getDeviceScreenBrightnessWithCallback:
+            6.新增「设备AI语音播放控制」方法 参@link deviceAiVoicePlaybackControl:withCallback:
+            7.移除「获取设备配置信息」方法
+            8.新增「获取设备版本信息」方法 参@link getDeviceVersionInfoWithCallback:
+            9.新增「设置KWS命令词开关状态」方法 参@link setKWSCommandWord:withCallback:
+            10.新增「设置POI打卡地列表」方法 参@link setPoiCheckInSpotsWithList:withCallback:
+            11.新增「设置勿扰模式」方法 参@link setDoNotDisturbMode:withCallback:
+            12.新增「获取勿扰模式」方法 参@link getDoNotDisturbModeWithCallback:
+            13.新增「设备发起交互」委托代理方法 参@link LWDelegate deviceInitiatesInteractionWithType:latitude:longitude:
+            14.新增「设置设备A2DP连接」方法 参@link setDeviceA2DPConnection:withCallback:
+            15.新增「响应设备交互」方法 参@link respondDeviceInteraction:withCallback:
+            16.新增「调试模式命令」方法 参@link debugModeWithCommand:withCallback:
+
  project    2025-12-29  Version:1.0.1   Build:2025122901
             1.新增请求离线语音授权码 参@link requestOfflineVoiceAuthCodeWithMac:withLang:withCallback:
 

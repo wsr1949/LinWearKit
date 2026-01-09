@@ -14,9 +14,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 抽奖物品动画形态类型（派生动画编号，根据高位0和1来判断普通款还是隐藏款）
 @property (nonatomic, assign) NSInteger rewardType;
 
-/// 抽奖动画编号
-@property (nonatomic, assign) NSInteger rewardAnimation;
-
 /// 进化总进度
 @property (nonatomic, assign) NSInteger totalProgress;
 

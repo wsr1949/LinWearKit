@@ -112,11 +112,12 @@ static NSString *const LWMainCellID = @"UITableViewCell";
 {
     self.dataSource = @[
         @"设置设备系统类型",
-        @"获取设备配置信息",
         @"设置设备系统时间",
         @"设置设备系统语言",
         @"设置设备系统音量",
         @"获取设备系统音量",
+        @"设置设备屏幕亮度",
+        @"获取设备屏幕亮度",
         @"绑定宠物",
         @"解绑宠物",
         @"获取宠物状态",
@@ -133,6 +134,15 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         @"设置设备地区",
         @"设置AI对话语音情绪",
         @"请求上传星历文件",
+        @"设备AI语音播放控制",
+        @"获取设备版本信息",
+        @"设置KWS命令词开关状态",
+        @"设置POI打卡地列表",
+        @"设置勿扰模式",
+        @"获取勿扰模式",
+        @"设置设备A2DP连接",
+        @"响应设备交互",
+        @"调试模式命令「恢复宠物默认形象」"
     ];
 }
 
@@ -162,12 +172,6 @@ static NSString *const LWMainCellID = @"UITableViewCell";
             NSLog(@"设置设备系统类型 %@", error ? @"失败" : @"成功");
         }];
     }
-    else if ([title isEqualToString:@"获取设备配置信息"])
-    {
-        [LinWearKit getDeviceConfigInfoWithCallback:^(LWDeviceConfigModel * _Nullable object, NSError * _Nullable error) {
-            NSLog(@"获取设备配置信息 %@", error ? @"失败" : @"成功");
-        }];
-    }
     else if ([title isEqualToString:@"设置设备系统时间"])
     {
         [LinWearKit setDeviceSystemTimeWithCallback:^(NSError * _Nullable error) {
@@ -182,25 +186,39 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     }
     else if ([title isEqualToString:@"设置设备系统音量"])
     {
-        [LinWearKit setDeviceSystemVolume:6 withCallback:^(NSError * _Nullable error) {
+        [LinWearKit setDeviceSystemVolume:12 withCallback:^(NSError * _Nullable error) {
             NSLog(@"设置设备系统音量 %@", error ? @"失败" : @"成功");
         }];
     }
     else if ([title isEqualToString:@"获取设备系统音量"])
     {
-        [LinWearKit getDeviceSystemVolumeWithCallback:^(NSNumber * _Nullable volume, NSError * _Nullable error) {
-            NSLog(@"获取设备系统音量 %@ 音量:%@", error ? @"失败" : @"成功", volume);
+        [LinWearKit getDeviceSystemVolumeWithCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            NSLog(@"获取设备系统音量 %@ 音量:%@", error ? @"失败" : @"成功", number);
+        }];
+    }
+    else if ([title isEqualToString:@"设置设备屏幕亮度"])
+    {
+        [LinWearKit setDeviceScreenBrightness:90 withCallback:^(NSError * _Nullable error) {
+            NSLog(@"设置设备屏幕亮度 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"获取设备屏幕亮度"])
+    {
+        [LinWearKit getDeviceScreenBrightnessWithCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            NSLog(@"获取设备屏幕亮度 %@ 亮度:%@", error ? @"失败" : @"成功", number);
         }];
     }
     else if ([title isEqualToString:@"绑定宠物"])
     {
         [LinWearKit bindAipetWithIdentifier:LWBindAipetIdentifier_Test withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"绑定宠物 %@", error ? @"失败" : @"成功");
         }];
     }
     else if ([title isEqualToString:@"解绑宠物"])
     {
         [LinWearKit unbindAipetWithIdentifier:LWBindAipetIdentifier_Test withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"解绑宠物 %@", error ? @"失败" : @"成功");
         }];
     }
@@ -217,6 +235,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.evolvedAudio = 31301;
      
         [LinWearKit setEvolvedAipetWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"设置宠物进化 %@", error ? @"失败" : @"成功");
         }];
     }
@@ -224,7 +243,6 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     {
         LWAipetRewardModel *model = [LWAipetRewardModel new];
         model.rewardType = 32202;
-        model.rewardAnimation = 1001;
         model.totalProgress = 80;
         model.currentProgress = 90;
      
@@ -239,6 +257,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.background = 15108;
      
         [LinWearKit setTodayWeatherWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"设置今天天气 %@", error ? @"失败" : @"成功");
         }];
     }
@@ -253,6 +272,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.weatherName = @"大雨";
      
         [LinWearKit setHourWeatherWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"设置小时天气 %@", error ? @"失败" : @"成功");
         }];
     }
@@ -271,6 +291,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.is_play_sound = YES;
      
         [LinWearKit addNewAnimationWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"添加新动画 %@", error ? @"失败" : @"成功");
         }];
     }
@@ -283,12 +304,14 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     else if ([title isEqualToString:@"设置车载模式"])
     {
         [LinWearKit setCarMode:YES withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"设置车载模式 %@", error ? @"失败" : @"成功");
         }];
     }
     else if ([title isEqualToString:@"获取车载模式"])
     {
         [LinWearKit getCarModeWithCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"获取车载模式 %@ 模式:%@", error ? @"失败" : @"成功", number.intValue==1 ? @"开启" : @"关闭");
         }];
     }
@@ -305,6 +328,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
             if (IF_NULL(object)) return;
             
             [LinWearKit setOfflineVoiceAuthorizeCode:object withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+                // 注意业务状态 number
                 NSLog(@"设置离线语音授权码 %@", error ? @"失败" : @"成功");
             }];
         }];
@@ -317,20 +341,24 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.foreground = 22305;
         model.background = 15210;
         model.background_detail = 81111;
+        model.interactive_audio = 0;
      
         [LinWearKit setHolidayAnimationWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"设置节日动画 %@", error ? @"失败" : @"成功");
         }];
     }
     else if ([title isEqualToString:@"设置设备地区"])
     {
         [LinWearKit setDeviceAreaCode:81304 withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"设置设备地区 %@", error ? @"失败" : @"成功");
         }];
     }
     else if ([title isEqualToString:@"设置AI对话语音情绪"])
     {
         [LinWearKit setAiDialogueVoiceMoodCode:42102 withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"设置AI对话语音情绪 %@", error ? @"失败" : @"成功");
         }];
     }
@@ -371,6 +399,71 @@ static NSString *const LWMainCellID = @"UITableViewCell";
                     }
                 }];
             }
+        }];
+    }
+    else if ([title isEqualToString:@"设备AI语音播放控制"])
+    {
+        [LinWearKit deviceAiVoicePlaybackControl:YES withCallback:^(NSError * _Nullable error) {
+            NSLog(@"设备AI语音播放控制 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"获取设备版本信息"])
+    {
+        [LinWearKit getDeviceVersionInfoWithCallback:^(LWDeviceVersionModel * _Nullable object, NSError * _Nullable error) {
+            NSLog(@"获取设备版本信息 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"设置KWS命令词开关状态"])
+    {
+        [LinWearKit setKWSCommandWord:71101 status:YES withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
+            NSLog(@"设置KWS命令词开关状态 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"设置POI打卡地列表"])
+    {
+        LWCheckInSpotsModel *model = [LWCheckInSpotsModel new];
+        model.type = 11023;
+        model.name = @"地点名称";
+        model.animation = 12023;
+        model.index = 12;
+        
+        [LinWearKit setPoiCheckInSpotsWithList:@[model] withCallback:^(LWCheckInSpotsResultModel * _Nullable object, NSError * _Nullable error) {
+            // 注意业务状态 object.error_code
+            NSLog(@"设置POI打卡地列表 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"设置勿扰模式"])
+    {
+        [LinWearKit setDoNotDisturbMode:NO withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
+            NSLog(@"设置勿扰模式 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"获取勿扰模式"])
+    {
+        [LinWearKit getDoNotDisturbModeWithCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
+            NSLog(@"获取勿扰模式 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"设置设备A2DP连接"])
+    {
+        [LinWearKit setDeviceA2DPConnection:YES withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
+            NSLog(@"设置设备A2DP连接 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"响应设备交互"])
+    {
+        [LinWearKit respondDeviceInteraction:0 withCallback:^(NSError * _Nullable error) {
+            NSLog(@"响应设备交互 %@", error ? @"失败" : @"成功");
+        }];
+    }
+    else if ([title isEqualToString:@"调试模式命令「恢复宠物默认形象」"])
+    {
+        [LinWearKit debugModeWithCommand:LWDebugModeCommand_RestorePet withCallback:^(NSError * _Nullable error) {
+            NSLog(@"调试模式命令「恢复宠物默认形象」 %@", error ? @"失败" : @"成功");
         }];
     }
 }
@@ -434,6 +527,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         
         // 1. 绑定宠物
         [LinWearKit bindAipetWithIdentifier:LWBindAipetIdentifier_Test withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
             NSLog(@"绑定宠物 %@", error ? @"失败" : @"成功");
         }];
         
@@ -498,7 +592,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
 
 
 /// 设备开始POI打卡
-- (void)deviceDidStartPoiCheckInWithTimeOut:(NSInteger)timeOut
+- (void)deviceDidStartPoiCheckInWithTimeOut:(NSInteger)timeOut type:(LWPoiCheckInType)type device:(NSString *)device
 {
     NSLog(@"设备开始POI打卡 超时时间 %ld", timeOut);
 }
@@ -508,6 +602,18 @@ static NSString *const LWMainCellID = @"UITableViewCell";
 - (void)devicePoiCheckInUpdateWithModel:(LWPoiCheckInModel *)poiCheckInModel
 {
     NSLog(@"设备POI打卡更新 %@", poiCheckInModel);
+}
+
+/// 设备资源缺失
+- (void)deviceResourcesMissingWithModel:(LWDeviceResourcesModel *)resourcesModel
+{
+    NSLog(@"设备资源缺失 %@", resourcesModel);
+}
+
+/// 设备发起交互
+- (void)deviceInitiatesInteractionWithType:(LWInteractionType)interactionType latitude:(double)latitude longitude:(double)longitude
+{
+    NSLog(@"设备发起交互 %lu", interactionType);
 }
 
 @end

@@ -26,6 +26,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 背景细节动画编号
 @property (nonatomic, assign) NSInteger background_detail;
 
+/// 交互音频编号
+@property (nonatomic, assign) NSInteger interactive_audio;
+
 @end
 
 NS_ASSUME_NONNULL_END

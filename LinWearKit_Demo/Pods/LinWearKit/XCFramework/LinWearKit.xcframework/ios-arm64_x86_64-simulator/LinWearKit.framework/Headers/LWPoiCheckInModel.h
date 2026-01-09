@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LWPoiCheckInModel : NSObject
 
-/// 打开时间戳
+/// 打卡时间戳
 @property (nonatomic, assign) NSInteger timestamp;
 
 /// 纬度
