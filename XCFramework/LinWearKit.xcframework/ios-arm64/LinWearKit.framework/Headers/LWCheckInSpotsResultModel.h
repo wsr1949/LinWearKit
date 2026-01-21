@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 错误码，0表示设置成功，其他则表示失败
 @property (nonatomic, assign) NSInteger error_code;
 
-/// 打卡点信息，成功时返回
+/// 打卡地信息，成功时返回
 @property (nonatomic, strong, nullable) LWCheckInSpotsModel *spotsModel;
 
 @end

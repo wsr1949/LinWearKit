@@ -285,9 +285,9 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  设置POI打卡地列表
  @param list                    POI打卡地信息
- @param callback                number数值：0表示设置成功，其他则表示失败
+ @note  ⚠️打卡地结果更新 详@link 【LDelegate】devicePoiCheckInSpotsUpdateWithModel:
  */
-+ (void)setPoiCheckInSpotsWithList:(NSArray <LWCheckInSpotsModel *> * _Nonnull)list withCallback:(LWResultCheckInSpotsCallback)callback;
++ (void)setPoiCheckInSpotsWithList:(NSArray <LWCheckInSpotsModel *> * _Nonnull)list withCallback:(LWResultCallback)callback;
 
 
 /**
