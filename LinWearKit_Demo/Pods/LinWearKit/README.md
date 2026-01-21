@@ -3,7 +3,7 @@
 <p align="left">
 
 <a href="https://github.com/wsr1949/LinWearKit.git">
-    <img src="https://img.shields.io/badge/Release-1.0.2 -Green.svg">
+    <img src="https://img.shields.io/badge/Release-1.0.3 -Green.svg">
 </a>
 <a href="https://github.com/wsr1949/LinWearKit.git">
     <img src="https://img.shields.io/badge/Support-iOS14.0+ -blue.svg">
@@ -613,6 +613,9 @@ Uses Bluetooth LE accessories
 
 # 版本记录🚀
 ```ruby
+ project    2026-01-21  Version:1.0.3   Build:2026012101
+            1.更新pb协议文件
+
  project    2026-01-08  Version:1.0.2   Build:2026010801
             1.更新「设备开始POI打卡」委托代理方法，增加打卡类型和对端设备信息 参@link LWDelegate deviceDidStartPoiCheckInWithTimeOut...
             2.新增「设备资源缺失」委托代理方法 参@link LWDelegate deviceResourcesMissingWithModel:

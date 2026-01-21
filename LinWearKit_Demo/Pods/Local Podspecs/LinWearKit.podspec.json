@@ -1,9 +1,9 @@
 {
   "name": "LinWearKit",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "summary": "LinWearKit 智能设备 SDK for iOS",
   "description": "LinWearKit 智能设备的 iOS 框架，负责与智能设备通信等功能的封装。",
-  "homepage": "https://github.com/wsr1949/LinWearKit/tree/1.0.2/LinWearKit",
+  "homepage": "https://github.com/wsr1949/LinWearKit/tree/1.0.3/LinWearKit",
   "license": "MIT",
   "authors": {
     "wsr1949": "921903719@qq.com"
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "https://github.com/wsr1949/LinWearKit.git",
-    "tag": "1.0.2"
+    "tag": "1.0.3"
   },
   "documentation_url": "https://github.com/wsr1949/LinWearKit/blob/main/README.md",
   "requires_arc": true,

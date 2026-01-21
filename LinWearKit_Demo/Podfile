@@ -14,5 +14,6 @@ target 'LinWearKit_Demo' do
   pod 'Masonry'
   pod 'SVProgressHUD'
   pod 'Realm'
+  pod 'BRPickerView'
 
 end

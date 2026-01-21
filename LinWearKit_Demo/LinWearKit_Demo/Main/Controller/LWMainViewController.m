@@ -303,7 +303,9 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     }
     else if ([title isEqualToString:@"设置车载模式"])
     {
-        [LinWearKit setCarMode:YES withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+        static BOOL carMode;
+        carMode = !carMode;
+        [LinWearKit setCarMode:carMode withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
             // 注意业务状态 number
             NSLog(@"设置车载模式 %@", error ? @"失败" : @"成功");
         }];
@@ -422,16 +424,38 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     }
     else if ([title isEqualToString:@"设置POI打卡地列表"])
     {
-        LWCheckInSpotsModel *model = [LWCheckInSpotsModel new];
-        model.type = 11023;
-        model.name = @"地点名称";
-        model.animation = 12023;
-        model.index = 12;
-        
-        [LinWearKit setPoiCheckInSpotsWithList:@[model] withCallback:^(LWCheckInSpotsResultModel * _Nullable object, NSError * _Nullable error) {
-            // 注意业务状态 object.error_code
-            NSLog(@"设置POI打卡地列表 %@", error ? @"失败" : @"成功");
-        }];
+        /// 单列文本选择器
+        BRTextPickerView *textPickerView = [[BRTextPickerView alloc]initWithPickerMode:BRTextPickerComponentSingle];
+        textPickerView.title = @"POI打卡地";
+        // 传入一维模型数组(NSArray <BRTextModel *>*)
+        NSArray *dataArr = @[@{@"type": @"81401", @"name": @"咖啡店", @"animation": @"31101"},
+                             @{@"type": @"81402", @"name": @"轻食简餐店", @"animation": @"31102"},
+                             @{@"type": @"81403", @"name": @"甜品店", @"animation": @"31103"},
+                             @{@"type": @"81404", @"name": @"汉堡快餐店", @"animation": @"31104"},
+                             @{@"type": @"81409", @"name": @"西餐厅", @"animation": @"31109"},
+                             @{@"type": @"81410", @"name": @"日料店", @"animation": @"31110"},
+                             @{@"type": @"81408", @"name": @"亚洲面馆", @"animation": @"31108"},
+                             @{@"type": @"81413", @"name": @"电影院", @"animation": @"31201"},
+                             @{@"type": @"81417", @"name": @"健身房", @"animation": @"31301"},
+                             @{@"type": @"81429", @"name": @"服饰店", @"animation": @"31605"}];
+        // 指定 BRTextModel模型的属性 与 字典key 的映射关系
+        NSDictionary *mapper = @{ @"code": @"type", @"text": @"name", @"extras": @"animation" };
+        // 将上面数组 转为 模型数组（组件内封装的工具方法）
+        NSArray<BRTextModel *> *modelArr = [NSArray br_modelArrayWithJson:dataArr mapper:mapper];
+        textPickerView.dataSourceArr = modelArr;
+        textPickerView.singleResultBlock = ^(BRTextModel * _Nullable model, NSInteger index) {
+            LWCheckInSpotsModel *spotsModel = [LWCheckInSpotsModel new];
+            spotsModel.type = [model.code integerValue];
+            spotsModel.name = model.text;
+            spotsModel.animation = [model.extras integerValue];
+            spotsModel.index = model.index;
+            
+            [LinWearKit setPoiCheckInSpotsWithList:@[spotsModel] withCallback:^(LWCheckInSpotsResultModel * _Nullable object, NSError * _Nullable error) {
+                // 注意业务状态 object.error_code
+                NSLog(@"设置POI打卡地列表 %@", error ? @"失败" : @"成功");
+            }];
+        };
+        [textPickerView show];
     }
     else if ([title isEqualToString:@"设置勿扰模式"])
     {
