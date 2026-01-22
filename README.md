@@ -613,7 +613,7 @@ Uses Bluetooth LE accessories
 
 # 版本记录🚀
 ```ruby
-  project    2026-01-22  Version:1.0.4   Build:2026012201
+ project    2026-01-22  Version:1.0.4   Build:2026012201
             1.新增「设备POI打卡地更新」委托代理方法 参@link LWDelegate devicePoiCheckInSpotsUpdateWithModel:
             2.更新「设置POI打卡地列表」方法，打卡地更新结果通过委托代理返回 参@link LWDelegate devicePoiCheckInSpotsUpdateWithModel:
             3.新增「固件」类型文件上传 参@link LWFileType枚举
