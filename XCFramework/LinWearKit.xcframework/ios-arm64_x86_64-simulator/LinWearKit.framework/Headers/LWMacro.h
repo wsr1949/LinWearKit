@@ -111,6 +111,8 @@ typedef NS_ENUM(NSInteger, LWFileType)
     LWFileType_Default              = 0,
     /// 星历文件
     LWFileType_Ephemeris            = 1,
+    /// 固件
+    LWFileType_Firmware             = 2,
     
 } NS_SWIFT_NAME(LWFileType);
 
