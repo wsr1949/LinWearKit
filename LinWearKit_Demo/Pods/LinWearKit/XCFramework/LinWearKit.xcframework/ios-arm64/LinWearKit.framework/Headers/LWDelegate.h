@@ -115,6 +115,13 @@
  */
 - (void)deviceInitiatesInteractionWithType:(LWInteractionType)interactionType latitude:(double)latitude longitude:(double)longitude;
 
+
+/**
+ 设备POI打卡地更新
+ @param checkInSpotsModel       打卡地信息，其中error_code为0表示设置成功，其他则表示失败
+ */
+- (void)devicePoiCheckInSpotsUpdateWithModel:(LWCheckInSpotsResultModel * _Nonnull)checkInSpotsModel;
+
 @end
 
 #endif /* LWDelegate_h */

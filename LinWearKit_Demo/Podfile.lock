@@ -1,34 +1,8 @@
 PODS:
-  - BRPickerView (2.9.7):
-    - BRPickerView/All (= 2.9.7)
-  - BRPickerView/All (2.9.7):
-    - BRPickerView/Default
-    - BRPickerView/Deprecated
-  - BRPickerView/Core (2.9.7)
-  - BRPickerView/DatePicker (2.9.7):
-    - BRPickerView/Core
-  - BRPickerView/Default (2.9.7):
-    - BRPickerView/DatePicker
-    - BRPickerView/TextPicker
-  - BRPickerView/Deprecated (2.9.7):
-    - BRPickerView/Core
-    - BRPickerView/Deprecated/AddressPickerView (= 2.9.7)
-    - BRPickerView/Deprecated/Base (= 2.9.7)
-    - BRPickerView/Deprecated/StringPickerView (= 2.9.7)
-  - BRPickerView/Deprecated/AddressPickerView (2.9.7):
-    - BRPickerView/Core
-    - BRPickerView/Deprecated/Base
-  - BRPickerView/Deprecated/Base (2.9.7):
-    - BRPickerView/Core
-  - BRPickerView/Deprecated/StringPickerView (2.9.7):
-    - BRPickerView/Core
-    - BRPickerView/Deprecated/Base
-  - BRPickerView/TextPicker (2.9.7):
-    - BRPickerView/Core
   - libopus (1.1):
     - libopus/float (= 1.1)
   - libopus/float (1.1)
-  - LinWearKit (1.0.3):
+  - LinWearKit (1.0.4):
     - libopus
     - MJExtension
     - Protobuf
@@ -43,7 +17,6 @@ PODS:
   - SVProgressHUD/Core (2.3.1)
 
 DEPENDENCIES:
-  - BRPickerView
   - LinWearKit (from `https://github.com/wsr1949/LinWearKit.git`)
   - Masonry
   - Realm
@@ -51,7 +24,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
-    - BRPickerView
     - libopus
     - Masonry
     - MJExtension
@@ -65,19 +37,18 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LinWearKit:
-    :commit: 271156a7ffdbd7b4cea9fc562986834656319cef
+    :commit: 7e23e7a7366407a0d8b8a7321067f81deb14a075
     :git: https://github.com/wsr1949/LinWearKit.git
 
 SPEC CHECKSUMS:
-  BRPickerView: 6548c8fbe21c0f29e72ab2fae177d196edc83f09
   libopus: ad5f060dcb8f30f139777244d70f9111f1c80863
-  LinWearKit: e4cd2be65af048840b0bf1595b2150d3d6a7a0ca
+  LinWearKit: ca42a1e05e88f31dbb9a1f76c81bb4691751c056
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: e97d164cb411aa9795cf576093a1fa208b4a8dd8
   Protobuf: 164aea2ae380c3951abdc3e195220c01d17400e0
   Realm: 853e5089d6042dff807bda000277eadfe2da93d2
   SVProgressHUD: 4837c74bdfe2e51e8821c397825996a8d7de6e22
 
-PODFILE CHECKSUM: 5c7f55c94addd0f38cfc056b98ef8d8aa5c267c3
+PODFILE CHECKSUM: fee4193f95fb1ec92d9a87a89110939bf53980d7
 
 COCOAPODS: 1.16.2

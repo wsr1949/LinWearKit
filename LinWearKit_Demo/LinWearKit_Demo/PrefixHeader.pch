@@ -11,6 +11,7 @@
 // Include any system framework and library headers here that should be included in all compilation units.
 // You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
 
+#import <objc/runtime.h>
 #import "NSObject+Tool.h"
 
 #import <LinWearKit/LinWearKit.h> // SDK
@@ -18,7 +19,6 @@
 #import <Realm/Realm.h>
 #import <Masonry/Masonry.h>
 #import <SVProgressHUD/SVProgressHUD.h>
-#import <BRPickerView/BRPickerView.h>
 
 #import "LWBaseNavigationController.h"
 #import "LWBaseViewController.h"
@@ -26,6 +26,7 @@
 #import "RLMObject+Expand.h"
 #import "RLMDeviceModel.h"
 #import "LWHUD.h"
+#import "LWBaseViewController+DocumentPicker.h"
 
 /// 弱引用
 #define LWEAKSELF                           __weak typeof(self) weakSelf = self;

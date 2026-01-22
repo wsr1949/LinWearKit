@@ -134,6 +134,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         @"设置设备地区",
         @"设置AI对话语音情绪",
         @"请求上传星历文件",
+        @"请求更新固件🚀",
         @"设备AI语音播放控制",
         @"获取设备版本信息",
         @"设置KWS命令词开关状态",
@@ -233,7 +234,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         LWAipetEvolvedModel *model = [LWAipetEvolvedModel new];
         model.evolvedType = 1017;
         model.evolvedAudio = 31301;
-     
+        
         [LinWearKit setEvolvedAipetWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
             // 注意业务状态 number
             NSLog(@"设置宠物进化 %@", error ? @"失败" : @"成功");
@@ -245,7 +246,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.rewardType = 32202;
         model.totalProgress = 80;
         model.currentProgress = 90;
-     
+        
         [LinWearKit setAipetRewardWithModel:model withCallback:^(NSError * _Nullable error) {
             NSLog(@"设置宠物奖励 %@", error ? @"失败" : @"成功");
         }];
@@ -255,7 +256,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         LWTodayWeatherModel *model = [LWTodayWeatherModel new];
         model.foreground = 22202;
         model.background = 15108;
-     
+        
         [LinWearKit setTodayWeatherWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
             // 注意业务状态 number
             NSLog(@"设置今天天气 %@", error ? @"失败" : @"成功");
@@ -270,7 +271,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.hour = cTime->tm_hour;
         model.weatherCode = 15102;
         model.weatherName = @"大雨";
-     
+        
         [LinWearKit setHourWeatherWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
             // 注意业务状态 number
             NSLog(@"设置小时天气 %@", error ? @"失败" : @"成功");
@@ -289,7 +290,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.is_scale = NO;
         model.is_multi_form = NO;
         model.is_play_sound = YES;
-     
+        
         [LinWearKit addNewAnimationWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
             // 注意业务状态 number
             NSLog(@"添加新动画 %@", error ? @"失败" : @"成功");
@@ -344,7 +345,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         model.background = 15210;
         model.background_detail = 81111;
         model.interactive_audio = 0;
-     
+        
         [LinWearKit setHolidayAnimationWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
             // 注意业务状态 number
             NSLog(@"设置节日动画 %@", error ? @"失败" : @"成功");
@@ -373,9 +374,9 @@ static NSString *const LWMainCellID = @"UITableViewCell";
             if (!error)
             {
                 LWUploadFileNegotModel *negotModel = [LWUploadFileNegotModel new];
-                negotModel.targetPath = @"/user/xgnss/";
+                negotModel.targetPath = @"/user/xgnss/"; // 星历
                 negotModel.filePath = object;
-                negotModel.fileType = LWFileType_Ephemeris;
+                negotModel.fileType = LWFileType_Ephemeris; // 星历
                 negotModel.fileOperateType = LWFileOperateType_Upload;
                 negotModel.resuming = YES;
                 
@@ -403,6 +404,44 @@ static NSString *const LWMainCellID = @"UITableViewCell";
             }
         }];
     }
+    else if ([title isEqualToString:@"请求更新固件🚀"])
+    {
+        // demo演示，从本地选择固件；实际业务中，这个应该从服务器中获取...
+        [self documentPickerWithFirmware:^(NSURL * _Nullable document) {
+            NSString *filePath = document.path;
+            
+            if (IF_NULL(filePath)) return;
+            
+            LWUploadFileNegotModel *negotModel = [LWUploadFileNegotModel new];
+            negotModel.targetPath = @"/user/"; // 固件
+            negotModel.filePath = filePath;
+            negotModel.fileType = LWFileType_Firmware; // 固件
+            negotModel.fileOperateType = LWFileOperateType_Upload;
+            negotModel.resuming = YES;
+            
+            // 文件上传协商
+            [LinWearKit fileUploadNegotiationWithModel:negotModel withCallback:^(LWUploadNegotModel * _Nullable object, NSError * _Nullable error) {
+                NSLog(@"文件上传协商 %@", error ? @"失败" : @"成功");
+                
+                if (!error && object.negotType == LWFileUploadNegotType_Allow)
+                {
+                    LWUploadFileModel *uploadModel = [LWUploadFileModel new];
+                    uploadModel.filePath = negotModel.filePath;
+                    uploadModel.fileOffset = object.fileOffset;
+                    
+                    // 开始上传
+                    [LinWearKit startUploadingFilesWithModel:uploadModel withProgressCallback:^(int progress) {
+                        
+                        [LWHUD showProgress:(CGFloat)progress/100.0 text:[NSString stringWithFormat:@"%d%%", progress]];
+                        
+                    } withCallback:^(NSError * _Nullable error) {
+                        
+                        [LWHUD showText:[NSString stringWithFormat:@"固件更新 %@", error ? @"失败" : @"成功"]];
+                    }];
+                }
+            }];
+        }];
+    }
     else if ([title isEqualToString:@"设备AI语音播放控制"])
     {
         [LinWearKit deviceAiVoicePlaybackControl:YES withCallback:^(NSError * _Nullable error) {
@@ -424,38 +463,36 @@ static NSString *const LWMainCellID = @"UITableViewCell";
     }
     else if ([title isEqualToString:@"设置POI打卡地列表"])
     {
-        /// 单列文本选择器
-        BRTextPickerView *textPickerView = [[BRTextPickerView alloc]initWithPickerMode:BRTextPickerComponentSingle];
-        textPickerView.title = @"POI打卡地";
-        // 传入一维模型数组(NSArray <BRTextModel *>*)
-        NSArray *dataArr = @[@{@"type": @"81401", @"name": @"咖啡店", @"animation": @"31101"},
-                             @{@"type": @"81402", @"name": @"轻食简餐店", @"animation": @"31102"},
-                             @{@"type": @"81403", @"name": @"甜品店", @"animation": @"31103"},
-                             @{@"type": @"81404", @"name": @"汉堡快餐店", @"animation": @"31104"},
-                             @{@"type": @"81409", @"name": @"西餐厅", @"animation": @"31109"},
-                             @{@"type": @"81410", @"name": @"日料店", @"animation": @"31110"},
-                             @{@"type": @"81408", @"name": @"亚洲面馆", @"animation": @"31108"},
-                             @{@"type": @"81413", @"name": @"电影院", @"animation": @"31201"},
-                             @{@"type": @"81417", @"name": @"健身房", @"animation": @"31301"},
-                             @{@"type": @"81429", @"name": @"服饰店", @"animation": @"31605"}];
-        // 指定 BRTextModel模型的属性 与 字典key 的映射关系
-        NSDictionary *mapper = @{ @"code": @"type", @"text": @"name", @"extras": @"animation" };
-        // 将上面数组 转为 模型数组（组件内封装的工具方法）
-        NSArray<BRTextModel *> *modelArr = [NSArray br_modelArrayWithJson:dataArr mapper:mapper];
-        textPickerView.dataSourceArr = modelArr;
-        textPickerView.singleResultBlock = ^(BRTextModel * _Nullable model, NSInteger index) {
+        // POI打卡地数据
+        NSArray *dataArr = @[
+            @{@"type" : @(81401), @"name" : @"咖啡店", @"animation" : @(31101)},
+            @{@"type" : @(81402), @"name" : @"轻食简餐店", @"animation" : @(31102)},
+            @{@"type" : @(81403), @"name" : @"甜品店", @"animation" : @(31103)},
+            @{@"type" : @(81404), @"name" : @"汉堡快餐店", @"animation" : @(31104)},
+            @{@"type" : @(81409), @"name" : @"西餐厅", @"animation" : @(31109)},
+            @{@"type" : @(81410), @"name" : @"日料店", @"animation" : @(31110)},
+            @{@"type" : @(81408), @"name" : @"亚洲面馆", @"animation" : @(31108)},
+            @{@"type" : @(81413), @"name" : @"电影院", @"animation" : @(31201)},
+            @{@"type" : @(81417), @"name" : @"健身房", @"animation" : @(31301)},
+            @{@"type" : @(81429), @"name" : @"服饰店", @"animation" : @(31605)}
+        ];
+        
+        NSMutableArray<LWCheckInSpotsModel *> *spotsList = [NSMutableArray array];
+        for (NSInteger i = 0; i < dataArr.count; i++) {
+            NSDictionary *dict = dataArr[i];
             LWCheckInSpotsModel *spotsModel = [LWCheckInSpotsModel new];
-            spotsModel.type = [model.code integerValue];
-            spotsModel.name = model.text;
-            spotsModel.animation = [model.extras integerValue];
-            spotsModel.index = model.index;
-            
-            [LinWearKit setPoiCheckInSpotsWithList:@[spotsModel] withCallback:^(LWCheckInSpotsResultModel * _Nullable object, NSError * _Nullable error) {
-                // 注意业务状态 object.error_code
-                NSLog(@"设置POI打卡地列表 %@", error ? @"失败" : @"成功");
-            }];
-        };
-        [textPickerView show];
+            spotsModel.type = [dict[@"type"] integerValue];
+            spotsModel.name = dict[@"name"];
+            spotsModel.animation = [dict[@"animation"] integerValue];
+            spotsModel.index = i;
+            [spotsList addObject:spotsModel];
+        }
+        
+        // 一次性发送全部10个POI
+        [LinWearKit setPoiCheckInSpotsWithList:spotsList withCallback:^(NSError * _Nullable error) {
+            // 打卡地更新 参@link devicePoiCheckInSpotsUpdateWithModel:
+            NSLog(@"设置POI打卡地列表 %@", error ? @"失败" : @"成功");
+        }];
     }
     else if ([title isEqualToString:@"设置勿扰模式"])
     {
@@ -638,6 +675,12 @@ static NSString *const LWMainCellID = @"UITableViewCell";
 - (void)deviceInitiatesInteractionWithType:(LWInteractionType)interactionType latitude:(double)latitude longitude:(double)longitude
 {
     NSLog(@"设备发起交互 %lu", interactionType);
+}
+
+/// 设备POI打卡地更新
+- (void)devicePoiCheckInSpotsUpdateWithModel:(LWCheckInSpotsResultModel *)checkInSpotsModel
+{
+    NSLog(@"设备POI打卡地更新 %@", checkInSpotsModel);
 }
 
 @end

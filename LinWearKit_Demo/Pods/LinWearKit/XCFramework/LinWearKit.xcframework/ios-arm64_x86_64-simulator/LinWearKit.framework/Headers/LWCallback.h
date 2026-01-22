@@ -70,12 +70,4 @@ typedef void(^LWResultUploadNegotCallback)(LWUploadNegotModel * _Nullable object
 typedef void(^LWResultDeviceVersionCallback)(LWDeviceVersionModel * _Nullable object, NSError * _Nullable error);
 
 
-/**
- 打卡点信息结果回调
- @param object              打卡点信息
- @param error               错误信息，为nil时表示成功
- */
-typedef void(^LWResultCheckInSpotsCallback)(LWCheckInSpotsResultModel * _Nullable object, NSError * _Nullable error);
-
-
 #endif /* LWCallback_h */
