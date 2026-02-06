@@ -160,10 +160,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  设置小时天气
- @param weatherModel            天气信息
+ @param lists                   天气信息
  @param callback                number数值：0表示设置成功，其他则表示失败
  */
-+ (void)setHourWeatherWithModel:(LWHourWeatherModel * _Nonnull)weatherModel withCallback:(LWResultNumberCallback)callback;
++ (void)setHourWeatherWithLists:(NSArray <LWHourWeatherModel *> * _Nonnull)lists withCallback:(LWResultNumberCallback)callback;
 
 
 /**
@@ -324,6 +324,28 @@ NS_ASSUME_NONNULL_BEGIN
  调试模式命令
  */
 + (void)debugModeWithCommand:(LWDebugModeCommand)command withCallback:(LWResultCallback)callback;
+
+
+/**
+ 设置设备执行动画命令
+ */
++ (void)setDeviceExecutionAnimationWithCommand:(LWAnimationCommand)command withCallback:(LWResultCallback)callback;
+
+
+/**
+ 资源文件diff更新协商
+ @param size                    所有资源文件大小，字节
+ @param callback                number数值：0表示可以更新，其他则表示失败
+ */
++ (void)resourceFileDiffUpdateNegotiationWithSize:(NSUInteger)size withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 删除设备文件或目录
+ @param filePath                文件或目录绝对路径
+ @param callback                number数值：0表示删除成功，其他则表示失败
+ */
++ (void)deleteDeviceFilesOrDirectories:(NSString * _Nonnull)filePath withCallback:(LWResultNumberCallback)callback;
 
 
 @end

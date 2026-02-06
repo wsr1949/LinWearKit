@@ -107,7 +107,7 @@ typedef NS_ENUM(NSInteger, LWAudioFormat)
 /// 文件类型
 typedef NS_ENUM(NSInteger, LWFileType)
 {
-    /// 默认（后续需要调整）
+    /// 默认
     LWFileType_Default              = 0,
     /// 星历文件
     LWFileType_Ephemeris            = 1,
@@ -165,6 +165,12 @@ typedef NS_ENUM(NSInteger, LWInteractionType)
     LWInteractionType_Festival      = 2,
     /// 需要上传Poi经纬度位置
     LWInteractionType_Poi           = 3,
+    /// 心灵鸡汤（每天第一次亮屏）
+    LWInteractionType_FirstSoul     = 4,
+    /// 上车提醒（打开车载模式）
+    LWInteractionType_BoardTime     = 5,
+    /// 到达提醒（关闭车载模式）
+    LWInteractionType_ArriveTime    = 6,
     
 } NS_SWIFT_NAME(LWInteractionType);
 
@@ -174,8 +180,49 @@ typedef NS_ENUM(NSInteger, LWDebugModeCommand)
 {
     /// 恢复宠物默认形象
     LWDebugModeCommand_RestorePet   = 0,
-    /// 更多代拓展...
+    /// 更多待拓展...
     
 } NS_SWIFT_NAME(LWDebugModeCommand);
+
+
+/// 动画命令
+typedef NS_ENUM(NSInteger, LWAnimationCommand)
+{
+    /// aimon sit down
+    LWAnimationCommand_0    = 0,
+    /// aimon down / lie down
+    LWAnimationCommand_1    = 1,
+    /// aimon good / good boy / good girl
+    LWAnimationCommand_2    = 2,
+    /// aimon shake hand / aimon paw
+    LWAnimationCommand_3    = 3,
+    /// aimon jump
+    LWAnimationCommand_4    = 4,
+    /// aimon say hi
+    LWAnimationCommand_5    = 5,
+    /// aimon kiss
+    LWAnimationCommand_6    = 6,
+    /// aimon wag tail
+    LWAnimationCommand_7    = 7,
+    
+} NS_SWIFT_NAME(LWAnimationCommand);
+
+
+/// BR连接配对状态
+typedef NS_ENUM(NSInteger, LWPairingStatus)
+{
+    /// 已连接
+    LWPairingStatus_Connected       = 0,
+    /// 未配对
+    LWPairingStatus_Unpaired        = 1,
+    /// 正在配对
+    LWPairingStatus_Pairing         = 2,
+    /// 已配对
+    LWPairingStatus_Paired          = 3,
+    /// 未连接
+    LWPairingStatus_Disconnected    = 4,
+    
+} NS_SWIFT_NAME(LWPairingStatus);
+
 
 #endif /* LWMacro_h */

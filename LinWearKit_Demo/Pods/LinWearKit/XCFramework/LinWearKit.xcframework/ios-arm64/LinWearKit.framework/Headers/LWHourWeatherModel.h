@@ -17,9 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// 天气编码
 @property (nonatomic, assign) NSInteger weatherCode;
 
-/// 天气名称
-@property (nonatomic, copy) NSString *weatherName;
-
 @end
 
 NS_ASSUME_NONNULL_END

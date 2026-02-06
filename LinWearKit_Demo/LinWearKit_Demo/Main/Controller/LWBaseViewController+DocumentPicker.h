@@ -9,12 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^LWDocumentPickerCallback)(NSURL * _Nullable document);
+typedef void(^LWDocumentPickerCallback)(NSArray <NSURL *> * documents);
 
 @interface LWBaseViewController (DocumentPicker)
 
 /// 选择固件
 - (void)documentPickerWithFirmware:(LWDocumentPickerCallback)pickerCallback;
+
+/// 选择资源
+- (void)documentPickerWithResource:(LWDocumentPickerCallback)pickerCallback;
 
 @end
 

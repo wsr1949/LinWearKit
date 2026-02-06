@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 文件路径
 @property (nonatomic, copy) NSString *filePath;
 
+/// 文件名称，如果不设置，SDK内部将默认使用文件路径filePath.lastPathComponent
+@property (nonatomic, copy, nullable) NSString *fileName;
+
 /// 文件类型
 @property (nonatomic, assign) LWFileType fileType;
 

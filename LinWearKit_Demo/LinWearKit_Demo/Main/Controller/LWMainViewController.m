@@ -7,6 +7,7 @@
 
 #import "LWMainViewController.h"
 #import "LWScanViewController.h"
+#import "LWAnimationCmdModel.h"
 
 @interface LWMainViewController () <LWDelegate, UITableViewDelegate, UITableViewDataSource>
 
@@ -133,8 +134,9 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         @"设置节日动画",
         @"设置设备地区",
         @"设置AI对话语音情绪",
-        @"请求上传星历文件",
-        @"请求更新固件🚀",
+        @"请求星历文件更新🚀",
+        @"请求固件更新🚀",
+        @"请求资源diff更新🚀",
         @"设备AI语音播放控制",
         @"获取设备版本信息",
         @"设置KWS命令词开关状态",
@@ -143,7 +145,9 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         @"获取勿扰模式",
         @"设置设备A2DP连接",
         @"响应设备交互",
-        @"调试模式命令「恢复宠物默认形象」"
+        @"调试模式命令「恢复宠物默认形象」",
+        @"设置设备执行动画命令",
+        @"删除设备文件或目录",
     ];
 }
 
@@ -269,10 +273,9 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         
         LWHourWeatherModel *model = [LWHourWeatherModel new];
         model.hour = cTime->tm_hour;
-        model.weatherCode = 15102;
-        model.weatherName = @"大雨";
+        model.weatherCode = 15106;
         
-        [LinWearKit setHourWeatherWithModel:model withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+        [LinWearKit setHourWeatherWithLists:@[model] withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
             // 注意业务状态 number
             NSLog(@"设置小时天气 %@", error ? @"失败" : @"成功");
         }];
@@ -365,7 +368,7 @@ static NSString *const LWMainCellID = @"UITableViewCell";
             NSLog(@"设置AI对话语音情绪 %@", error ? @"失败" : @"成功");
         }];
     }
-    else if ([title isEqualToString:@"请求上传星历文件"])
+    else if ([title isEqualToString:@"请求星历文件更新🚀"])
     {
         // 请求星历文件
         [LinWearKit requestEphemerisFileWithCallback:^(NSString * _Nullable object, NSError * _Nullable error) {
@@ -374,72 +377,101 @@ static NSString *const LWMainCellID = @"UITableViewCell";
             if (!error)
             {
                 LWUploadFileNegotModel *negotModel = [LWUploadFileNegotModel new];
-                negotModel.targetPath = @"/user/xgnss/"; // 星历
+                negotModel.targetPath = @"/user/xgnss/"; // 星历目标路径
                 negotModel.filePath = object;
+                //negotModel.fileName = 不设置，SDK默认filePath.lastPathComponent
                 negotModel.fileType = LWFileType_Ephemeris; // 星历
                 negotModel.fileOperateType = LWFileOperateType_Upload;
                 negotModel.resuming = YES;
                 
-                // 文件上传协商
-                [LinWearKit fileUploadNegotiationWithModel:negotModel withCallback:^(LWUploadNegotModel * _Nullable object, NSError * _Nullable error) {
-                    NSLog(@"文件上传协商 %@", error ? @"失败" : @"成功");
-                    
-                    if (!error && object.negotType == LWFileUploadNegotType_Allow)
-                    {
-                        LWUploadFileModel *uploadModel = [LWUploadFileModel new];
-                        uploadModel.filePath = negotModel.filePath;
-                        uploadModel.fileOffset = object.fileOffset;
-                        
-                        // 开始上传
-                        [LinWearKit startUploadingFilesWithModel:uploadModel withProgressCallback:^(int progress) {
-                            
-                            [LWHUD showProgress:(CGFloat)progress/100.0 text:[NSString stringWithFormat:@"%d%%", progress]];
-                            
-                        } withCallback:^(NSError * _Nullable error) {
-                            
-                            [LWHUD showText:[NSString stringWithFormat:@"文件上传 %@", error ? @"失败" : @"成功"]];
-                        }];
-                    }
-                }];
+                // 文件上传
+                [self fileUploadWithNegotis:@[negotModel] index:0];
             }
         }];
     }
-    else if ([title isEqualToString:@"请求更新固件🚀"])
+    else if ([title isEqualToString:@"请求固件更新🚀"])
     {
         // demo演示，从本地选择固件；实际业务中，这个应该从服务器中获取...
-        [self documentPickerWithFirmware:^(NSURL * _Nullable document) {
-            NSString *filePath = document.path;
-            
-            if (IF_NULL(filePath)) return;
-            
+        [self documentPickerWithFirmware:^(NSArray<NSURL *> * _Nonnull documents)
+         {
+            NSString *filePath = documents.firstObject.path;
+                        
             LWUploadFileNegotModel *negotModel = [LWUploadFileNegotModel new];
-            negotModel.targetPath = @"/user/"; // 固件
+            negotModel.targetPath = @"/user/"; // 固件目标路径
             negotModel.filePath = filePath;
+            //negotModel.fileName = 无需设置，固件特殊，SDK内部已固定名称
             negotModel.fileType = LWFileType_Firmware; // 固件
             negotModel.fileOperateType = LWFileOperateType_Upload;
             negotModel.resuming = YES;
             
-            // 文件上传协商
-            [LinWearKit fileUploadNegotiationWithModel:negotModel withCallback:^(LWUploadNegotModel * _Nullable object, NSError * _Nullable error) {
-                NSLog(@"文件上传协商 %@", error ? @"失败" : @"成功");
+            // 文件上传
+            [self fileUploadWithNegotis:@[negotModel] index:0];
+        }];
+    }
+    else if ([title isEqualToString:@"请求资源diff更新🚀"])
+    {
+        // demo演示，从本地选择资源；实际业务中，这个应该从服务器中获取...
+        [self documentPickerWithResource:^(NSArray<NSURL *> * _Nonnull documents)
+         {
+            NSUInteger allCount = documents.count;
+            
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"资源目标路径" message:@"资源文件diff更新目标路径" preferredStyle:UIAlertControllerStyleAlert];
+            
+            for (NSURL *document in documents)
+            {
+                [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                    textField.placeholder = [NSString stringWithFormat:@"%@ 资源目标路径", document.path.lastPathComponent];
+                }];
+            }
+
+            [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:nil]];
+            
+            [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
-                if (!error && object.negotType == LWFileUploadNegotType_Allow)
-                {
-                    LWUploadFileModel *uploadModel = [LWUploadFileModel new];
-                    uploadModel.filePath = negotModel.filePath;
-                    uploadModel.fileOffset = object.fileOffset;
+                //总大小
+                NSUInteger allSize = 0;
+                NSMutableArray <LWUploadFileNegotModel *> *negotis = NSMutableArray.array;
+                
+                for (int index = 0; index < allCount; index++) {
+                    NSURL *document = documents[index];
+                    UITextField *textField = alertController.textFields[index];
                     
-                    // 开始上传
-                    [LinWearKit startUploadingFilesWithModel:uploadModel withProgressCallback:^(int progress) {
-                        
-                        [LWHUD showProgress:(CGFloat)progress/100.0 text:[NSString stringWithFormat:@"%d%%", progress]];
-                        
-                    } withCallback:^(NSError * _Nullable error) {
-                        
-                        [LWHUD showText:[NSString stringWithFormat:@"固件更新 %@", error ? @"失败" : @"成功"]];
-                    }];
+                    if (IF_NULL(textField.text)) break;
+                    
+                    allSize += [NSData dataWithContentsOfURL:document].length;
+                    
+                    LWUploadFileNegotModel *negotModel = [LWUploadFileNegotModel new];
+                    negotModel.targetPath = textField.text; // 资源目标路径
+                    negotModel.filePath = document.path;
+                    //negotModel.fileName = demo这里演示就不设置了，选择文件前请先确保文件命名正确，在实际应用中如果无法保证命令，则需要额外设置
+                    negotModel.fileType = LWFileType_Default; // 资源
+                    negotModel.fileOperateType = LWFileOperateType_Overwrite; // demo这里演示固定用了「覆盖」实际应按diff不同而使用相应的类型
+                    negotModel.resuming = YES;
+                    
+                    [negotis addObject:negotModel];
                 }
-            }];
+                
+                if (negotis.count != allCount) {
+                    [LWHUD showText:@"请输入对应文件目标路径"];
+                    return;
+                }
+
+                
+                // 1.资源文件diff更新协商
+                [LinWearKit resourceFileDiffUpdateNegotiationWithSize:allSize withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+                    // 注意业务状态 number
+                    NSLog(@"资源文件diff更新协商 %@", error ? @"失败" : @"成功");
+                    
+                    if (number.integerValue == 0 && !error) // 可以更新
+                    {
+                        // 文件上传
+                        [self fileUploadWithNegotis:negotis.copy index:0];
+                    }
+                }];
+                
+            }]];
+            
+            [self presentViewController:alertController animated:YES completion:nil];
         }];
     }
     else if ([title isEqualToString:@"设备AI语音播放控制"])
@@ -527,6 +559,95 @@ static NSString *const LWMainCellID = @"UITableViewCell";
             NSLog(@"调试模式命令「恢复宠物默认形象」 %@", error ? @"失败" : @"成功");
         }];
     }
+    else if ([title isEqualToString:@"设置设备执行动画命令"])
+    {
+        NSArray <LWAnimationCmdModel *> *cmds = @[
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon sit down" command:LWAnimationCommand_0],
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon down / lie down" command:LWAnimationCommand_1],
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon good / good boy / good girl" command:LWAnimationCommand_2],
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon shake hand / aimon paw" command:LWAnimationCommand_3],
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon jump" command:LWAnimationCommand_4],
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon say hi" command:LWAnimationCommand_5],
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon kiss" command:LWAnimationCommand_6],
+            [[LWAnimationCmdModel alloc] initWithKws:@"aimon wag tail" command:LWAnimationCommand_7],
+        ];
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"动画命令" message:@"设置设备执行动画命令" preferredStyle:UIAlertControllerStyleActionSheet];
+        // 命令
+        for (LWAnimationCmdModel *model in cmds)
+        {
+            [alertController addAction:[UIAlertAction actionWithTitle:model.kws style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                
+                [LinWearKit setDeviceExecutionAnimationWithCommand:model.command withCallback:^(NSError * _Nullable error) {
+                    NSLog(@"设置设备执行动画命令 %@", error ? @"失败" : @"成功");
+                }];
+                
+            }]];
+        }
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:nil]];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+    else if ([title isEqualToString:@"删除设备文件或目录"])
+    {
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"绝对路径" message:@"删除设备文件或目录" preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.placeholder = @"绝对路径";
+        }];
+
+        [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:nil]];
+        
+        [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UITextField *textField = alertController.textFields.firstObject;
+            NSString *filePath = textField.text;
+            if (IF_NULL(filePath)) return;
+            
+            [LinWearKit deleteDeviceFilesOrDirectories:filePath withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+                // 注意业务状态 number
+                NSLog(@"删除设备文件或目录 %@", error ? @"失败" : @"成功");
+            }];
+            
+        }]];
+        
+        [self presentViewController:alertController animated:YES completion:nil];
+    }
+}
+
+
+#pragma mark - 文件上传
+
+/// 文件上传
+- (void)fileUploadWithNegotis:(NSArray <LWUploadFileNegotModel *> *)negotis index:(NSInteger)index
+{
+    if (index >= negotis.count) return;
+    
+    LWUploadFileNegotModel *negotModel = negotis[index];
+    
+    // 1.文件上传协商
+    [LinWearKit fileUploadNegotiationWithModel:negotModel withCallback:^(LWUploadNegotModel * _Nullable object, NSError * _Nullable error) {
+        NSLog(@"📃文件上传协商 %@", error ? @"失败" : @"成功");
+        
+        if (!error && object.negotType == LWFileUploadNegotType_Allow)
+        {
+            LWUploadFileModel *uploadModel = [LWUploadFileModel new];
+            uploadModel.filePath = negotModel.filePath;
+            uploadModel.fileOffset = object.fileOffset;
+            
+            // 2.开始上传
+            [LinWearKit startUploadingFilesWithModel:uploadModel withProgressCallback:^(int progress) {
+                
+                [LWHUD showProgress:(CGFloat)progress/100.0 text:[NSString stringWithFormat:@"%d%%", progress]];
+                
+            } withCallback:^(NSError * _Nullable error) {
+                
+                [LWHUD showText:[NSString stringWithFormat:@"📃文件上传 %@", error ? @"失败" : @"成功"]];
+                if (!error) {
+                    [self fileUploadWithNegotis:negotis index:index+1]; // 继续检查上传
+                }
+            }];
+        }
+    }];
 }
 
 /*
@@ -681,6 +802,18 @@ static NSString *const LWMainCellID = @"UITableViewCell";
 - (void)devicePoiCheckInSpotsUpdateWithModel:(LWCheckInSpotsResultModel *)checkInSpotsModel
 {
     NSLog(@"设备POI打卡地更新 %@", checkInSpotsModel);
+}
+
+/// 设备取消AI对话
+- (void)deviceCancelsAiDialogue
+{
+    NSLog(@"设备取消AI对话");
+}
+
+/// 设备BR连接配对状态
+- (void)deviceBrConnectionPairingStatus:(LWPairingStatus)status
+{
+    NSLog(@"设备BR连接配对状态 %lu", status);
 }
 
 @end

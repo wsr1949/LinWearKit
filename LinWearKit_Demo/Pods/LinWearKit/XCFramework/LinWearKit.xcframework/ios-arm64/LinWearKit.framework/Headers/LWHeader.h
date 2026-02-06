@@ -16,6 +16,16 @@
  
  版本记录：
  
+ project    2026-02-06  Version:1.0.5   Build:2026020601
+            1.更新「交互类型」枚举 参@link LWInteractionType枚举
+            2.更新「设置小时天气」方法，入参为数组 参@link setHourWeatherWithLists:withCallback:
+            3.新增「设置设备执行动画命令」方法 参@link setDeviceExecutionAnimationWithCommand:withCallback:
+            4.新增「设备取消AI对话」委托代理方法 参@link LWDelegate deviceCancelsAiDialogue
+            5.新增「设备BR连接配对状态」委托代理方法 参@link LWDelegate deviceBrConnectionPairingStatus:
+            6.更新「文件上传协商」新增文件名称filePath参数，具体使用见注释 参@link LWUploadFileNegotModel
+            7.新增「资源文件diff更新协商」方法 参@link resourceFileDiffUpdateNegotiationWithSize:withCallback:
+            8.新增「删除设备文件或目录」方法 参@link deleteDeviceFilesOrDirectories::withCallback:
+ 
  project    2026-01-22  Version:1.0.4   Build:2026012201
             1.新增「设备POI打卡地更新」委托代理方法 参@link LWDelegate devicePoiCheckInSpotsUpdateWithModel:
             2.更新「设置POI打卡地列表」方法，打卡地更新结果通过委托代理返回 参@link LWDelegate devicePoiCheckInSpotsUpdateWithModel:

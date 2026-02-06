@@ -122,6 +122,18 @@
  */
 - (void)devicePoiCheckInSpotsUpdateWithModel:(LWCheckInSpotsResultModel * _Nonnull)checkInSpotsModel;
 
+
+/**
+ 设备取消AI对话
+ */
+- (void)deviceCancelsAiDialogue;
+
+
+/**
+ 设备BR连接配对状态
+ */
+- (void)deviceBrConnectionPairingStatus:(LWPairingStatus)status;
+
 @end
 
 #endif /* LWDelegate_h */
