@@ -1,18 +1,19 @@
 Pod::Spec.new do |spec|
 
   spec.name                     = "LinWearKit"
-  spec.version                  = "1.0.4"
+  spec.version                  = "1.0.5"
   spec.summary                  = "LinWearKit 智能设备 SDK for iOS"
   spec.description              = <<-DESC
                                   LinWearKit 智能设备的 iOS 框架，负责与智能设备通信等功能的封装。
                                   DESC
-  spec.homepage                 = "https://github.com/wsr1949/LinWearKit/tree/#{spec.version}/LinWearKit"
+  spec.homepage                 = "https://github.com/wsr1949/LinWearKit"
   spec.license                  = 'MIT'
   spec.author                   = { "wsr1949" => "921903719@qq.com" }
   spec.social_media_url         = 'https://github.com/wsr1949'
   spec.platform                 = :ios, '14.0'
+  spec.swift_versions           = '5.0'
   spec.source                   = { :git => "https://github.com/wsr1949/LinWearKit.git", :tag => spec.version.to_s }
-  spec.documentation_url        = 'https://github.com/wsr1949/LinWearKit/blob/main/README.md'
+  spec.documentation_url        = spec.homepage
   spec.requires_arc             = true
   spec.frameworks               = 'CoreBluetooth'
 
