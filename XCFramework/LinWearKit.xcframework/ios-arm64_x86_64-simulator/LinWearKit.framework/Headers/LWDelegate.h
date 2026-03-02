@@ -54,10 +54,10 @@
 
 /**
  设备录音数据
- @param audioData               音频数据
+ @param dataArray               音频数据数组
  @param audioFormat             音频格式
  */
-- (void)deviceAudioRecordingWithAudioData:(NSData * _Nonnull)audioData audioFormat:(LWAudioFormat)audioFormat;
+- (void)deviceAudioRecordingWithDataArray:(NSArray <NSData *> * _Nonnull)dataArray audioFormat:(LWAudioFormat)audioFormat;
 
 
 /**

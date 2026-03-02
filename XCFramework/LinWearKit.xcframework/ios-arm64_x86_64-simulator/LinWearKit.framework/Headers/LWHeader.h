@@ -16,6 +16,11 @@
  
  版本记录：
  
+ project    2026-02-25  Version:1.0.6   Build:2026022501
+            1.更新「设备录音数据」委托代理方法，方法由 deviceAudioRecordingWithAudioData:audioFormat: 改为 参@link LWDelegate deviceAudioRecordingWithDataArray:audioFormat:
+            2.新增「opus转pcm」方法 参@link opusStream2pcm:
+            3.新增「opus转ogg」方法 参@link opusStream2ogg:
+ 
  project    2026-02-06  Version:1.0.5   Build:2026020601
             1.更新「交互类型」枚举 参@link LWInteractionType枚举
             2.更新「设置小时天气」方法，入参为数组 参@link setHourWeatherWithLists:withCallback:
