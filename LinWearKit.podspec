@@ -21,6 +21,7 @@ Pod::Spec.new do |spec|
   
   spec.dependency 'Protobuf'
   spec.dependency 'libopus'
+  spec.dependency 'libogg'
   spec.dependency 'MJExtension'
 
   spec.pod_target_xcconfig      = { 
