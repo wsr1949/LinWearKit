@@ -27,6 +27,7 @@
 #import "RLMDeviceModel.h"
 #import "LWHUD.h"
 #import "LWBaseViewController+DocumentPicker.h"
+#import "LWAudioPlayer.h"
 
 /// 弱引用
 #define LWEAKSELF                           __weak typeof(self) weakSelf = self;

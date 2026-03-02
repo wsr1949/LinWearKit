@@ -50,14 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  中心蓝牙状态
- @return    中心蓝牙状态
+ @return                        中心蓝牙状态
 */
 + (CBManagerState)centralManagerState;
 
 
 /**
  BLE连接状态
- @return    BLE连接状态
+ @return                        BLE连接状态
  */
 + (LWBleStatus)bleStatus;
 
@@ -178,6 +178,22 @@ NS_ASSUME_NONNULL_BEGIN
  设置设备停止录音
  */
 + (void)setDeviceStopAudioRecordingWithCallback:(LWResultCallback)callback;
+
+
+/**
+ opus转pcm（音频流数据）
+ @param opus                    opus音频流数据
+ @return                        成功则返回pcm音频流数据，失败为nil
+ */
++ (NSData * _Nullable)opusStream2pcm:(NSArray <NSData *> * _Nonnull)opus;
+
+
+/**
+ opus转ogg（音频流数据）
+ @param opus                    opus音频流数据
+ @return                        成功则返回ogg音频流数据，失败为nil
+ */
++ (NSData * _Nullable)opusStream2ogg:(NSArray <NSData *> * _Nonnull)opus;
 
 
 /**

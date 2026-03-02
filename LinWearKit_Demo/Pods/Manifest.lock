@@ -1,8 +1,10 @@
 PODS:
+  - libogg (1.3.5)
   - libopus (1.1):
     - libopus/float (= 1.1)
   - libopus/float (1.1)
-  - LinWearKit (1.0.5):
+  - LinWearKit (1.0.6):
+    - libogg
     - libopus
     - MJExtension
     - Protobuf
@@ -24,6 +26,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://mirrors.tuna.tsinghua.edu.cn/git/CocoaPods/Specs.git:
+    - libogg
     - libopus
     - Masonry
     - MJExtension
@@ -37,12 +40,13 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LinWearKit:
-    :commit: ed6b98890e28995ee2e9fb75eb1b282858b17f2f
+    :commit: ad2efca521fe47ba3f7b2f135a88d0bc47b9d970
     :git: https://github.com/wsr1949/LinWearKit.git
 
 SPEC CHECKSUMS:
+  libogg: a355eccc76b1ec82b20f97a9f9d78a3683d28371
   libopus: ad5f060dcb8f30f139777244d70f9111f1c80863
-  LinWearKit: 45f9116e922e57118af651a3fe090a93f2823749
+  LinWearKit: 35069d8d7e6aedde393d1ad122beb2d657030642
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: e97d164cb411aa9795cf576093a1fa208b4a8dd8
   Protobuf: 164aea2ae380c3951abdc3e195220c01d17400e0

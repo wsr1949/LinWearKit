@@ -27,6 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 快速创建列表Label
 - (UILabel *)mainLabel:(UIFont *)font textColor:(UIColor *)color;
 
+/// pcm转wav音频格式（其实就是加个wav文件头）
+- (NSData *)convertPcmToWav:(NSData *)pcmData sampleRate:(float)sampleRate channels:(int)channels bitsPerSample:(int)bitsPerSample;
+
 @end
 
 NS_ASSUME_NONNULL_END

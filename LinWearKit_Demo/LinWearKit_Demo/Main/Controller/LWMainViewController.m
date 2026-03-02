@@ -746,9 +746,24 @@ static NSString *const LWMainCellID = @"UITableViewCell";
 
 
 /// 设备录音数据
-- (void)deviceAudioRecordingWithAudioData:(NSData *)audioData audioFormat:(LWAudioFormat)audioFormat
+- (void)deviceAudioRecordingWithDataArray:(NSArray<NSData *> *)dataArray audioFormat:(LWAudioFormat)audioFormat
 {
-    NSLog(@"音频数据 %ld", audioData.length);
+    NSLog(@"音频格式%lu 音频数据%ld个 %@", audioFormat, dataArray.count, dataArray);
+    
+    if (audioFormat == LWAudioFormat_PCM) {
+        /// pcm
+    }
+    else if (audioFormat == LWAudioFormat_OPUS) {
+        /// opus
+        
+//        // opus转pcm
+//        NSData *pcm = [LinWearKit opusStream2pcm:dataArray];
+//        NSLog(@"opus转pcm -> %@", pcm);
+        
+//        // opus转ogg
+//        NSData *ogg = [LinWearKit opusStream2ogg:dataArray];
+//        NSLog(@"opus转ogg -> %@", ogg);
+    }
 }
 
 
