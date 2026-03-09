@@ -3,7 +3,7 @@
 <p align="left">
 
 <a href="https://github.com/wsr1949/LinWearKit.git">
-    <img src="https://img.shields.io/badge/Release-1.0.6 -Green.svg">
+    <img src="https://img.shields.io/badge/Release-1.0.7 -Green.svg">
 </a>
 <a href="https://github.com/wsr1949/LinWearKit.git">
     <img src="https://img.shields.io/badge/Support-iOS14.0+ -blue.svg">
@@ -217,6 +217,49 @@ Uses Bluetooth LE accessories
         2. A2DP连接成功后再响应交互 详@link 【LinWearKit】respondDeviceInteraction:withCallback:
  */
 - (void)deviceInitiatesInteractionWithType:(LWInteractionType)interactionType latitude:(double)latitude longitude:(double)longitude;
+```
+
+##### 设备POI打卡地更新
+```ruby
+/**
+ 设备POI打卡地更新
+ @param checkInSpotsModel       打卡地信息，其中error_code为0表示设置成功，其他则表示失败
+ */
+- (void)devicePoiCheckInSpotsUpdateWithModel:(LWCheckInSpotsResultModel * _Nonnull)checkInSpotsModel;
+```
+
+##### 设备取消AI对话
+```ruby
+/**
+ 设备取消AI对话
+ */
+- (void)deviceCancelsAiDialogue;
+```
+
+##### 设备BR连接配对状态
+```ruby
+/**
+ 设备BR连接配对状态
+ */
+- (void)deviceBrConnectionPairingStatus:(LWPairingStatus)status;
+```
+
+##### 设备屏幕状态
+```ruby
+/**
+ 设备屏幕状态
+ */
+- (void)deviceScreenStatus:(LWScreenStatus)status;
+```
+
+##### 设备请求APP状态
+```ruby
+/**
+ 设备请求APP状态
+ 
+ @note  收到此请求，应用端需要响应当前状态 详@link 【LinWearKit】respondCurrentAppStates:withCallback:
+ */
+- (void)deviceRequestsAppStatus;
 ```
 
 ## 四、命令方法
@@ -628,11 +671,109 @@ Uses Bluetooth LE accessories
 + (void)debugModeWithCommand:(LWDebugModeCommand)command withCallback:(LWResultCallback)callback;
 ```
 
+##### 设置设备执行动画命令
+```ruby
+/**
+ 设置设备执行动画命令
+ */
++ (void)setDeviceExecutionAnimationWithCommand:(LWAnimationCommand)command withCallback:(LWResultCallback)callback;
+```
+
+##### 资源文件diff更新协商
+```ruby
+/**
+ 资源文件diff更新协商
+ @param size                    所有资源文件大小，字节
+ @param callback                number数值：0表示可以更新，其他则表示失败
+ */
++ (void)resourceFileDiffUpdateNegotiationWithSize:(NSUInteger)size withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 删除设备文件或目录
+```ruby
+/**
+ 删除设备文件或目录
+ @param filePath                文件或目录绝对路径
+ @param callback                number数值：0表示删除成功，其他则表示失败
+ */
++ (void)deleteDeviceFilesOrDirectories:(NSString * _Nonnull)filePath withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 初始化音频格式（开始）
+```ruby
+/**
+ 初始化音频格式（开始）
+ @param audioFormat             音频格式
+ @param callback                number数值：0表示初始化成功，其他则表示失败
+ */
++ (void)initAudioFormat:(LWAudioFormatModel * _Nonnull)audioFormat withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 初始化音频元信息
+```ruby
+/**
+ 初始化音频元信息
+ @param audioMeta               音频元信息
+ @param callback                number数值：0表示初始化成功，其他则表示失败
+ */
++ (void)initAudioMeta:(LWAudioMetaModel * _Nonnull)audioMeta withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 发送音频数据
+```ruby
+/**
+ 发送音频数据
+ @param audioData               音频数据
+ */
++ (void)sendAudioData:(NSData * _Nonnull)audioData withCallback:(LWResultCallback)callback;
+```
+
+##### 音频数据发送完成，请求校验文件
+```ruby
+/**
+ 音频数据发送完成，请求校验文件
+ @param audioData               音频数据
+ @param streamId                流ID
+ @param fileId                  文件ID
+ @param callback                number数值：0表示文件校验失败，其他则表示失败
+ */
++ (void)requestVerifyAudioData:(NSData * _Nonnull)audioData streamId:(NSInteger)streamId fileId:(NSInteger)fileId withCallback:(LWResultNumberCallback)callback;
+```
+
+##### 响应发送的音频总数量（结束）
+```ruby
+/**
+ 响应发送的音频总数量（结束）
+ @param audioCount              音频总数量
+ @param streamId                流ID
+ */
++ (void)respondSentAudioCount:(NSInteger)audioCount streamId:(NSInteger)streamId withCallback:(LWResultCallback)callback;
+```
+
+##### 响应当前APP状态
+```ruby
+/**
+ 响应当前APP状态
+ @param states                  APP状态
+ */
++ (void)respondCurrentAppStates:(LWAppStatus)states withCallback:(LWResultCallback)callback;
+```
+
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 
 # 版本记录🚀
 ```ruby
+ project    2026-03-05  Version:1.0.7   Build:2026030501
+            1.新增「初始化音频格式（开始）」方法 参@link initAudioFormat:withCallback:
+            2.新增「初始化音频元信息」方法 参@link initAudioMeta:withCallback:
+            3.新增「发送音频数据」方法 参@link sendAudioData:withCallback:
+            4.新增「音频数据发送完成，请求校验文件」方法 参@link requestVerifyAudioData:streamId:fileId:withCallback:
+            5.新增「响应发送的音频总数量（结束）」方法 参@link respondSentAudioCount:streamId:withCallback:
+            6.新增「响应当前APP状态」方法 参@link respondCurrentAppStates:withCallback:
+            7.新增「设备屏幕状态」委托代理方法 参@link deviceScreenStatus:
+            8.新增「设备请求APP状态」委托代理方法 参@link deviceRequestsAppStatus
+
  project    2026-02-25  Version:1.0.6   Build:2026022501
             1.更新「设备录音数据」委托代理方法，方法由 deviceAudioRecordingWithAudioData:audioFormat: 改为 参@link LWDelegate deviceAudioRecordingWithDataArray:audioFormat:
             2.新增「opus转pcm」方法 参@link opusStream2pcm:
