@@ -148,6 +148,8 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         @"调试模式命令「恢复宠物默认形象」",
         @"设置设备执行动画命令",
         @"删除设备文件或目录",
+        @"设备播放音频🎼",
+        @"响应当前APP状态",
     ];
 }
 
@@ -612,6 +614,56 @@ static NSString *const LWMainCellID = @"UITableViewCell";
         
         [self presentViewController:alertController animated:YES completion:nil];
     }
+    else if ([title isEqualToString:@"设备播放音频🎼"])
+    {
+        NSString *format = @"ogg";
+        NSArray <NSString *> *files = @[ // test
+            [NSBundle.mainBundle pathForResource:@"slice_00001" ofType:format],
+            [NSBundle.mainBundle pathForResource:@"slice_00002" ofType:format],
+            [NSBundle.mainBundle pathForResource:@"slice_00003" ofType:format],
+            [NSBundle.mainBundle pathForResource:@"slice_00004" ofType:format],
+            [NSBundle.mainBundle pathForResource:@"slice_00005" ofType:format],
+        ];
+        
+        // 流ID，同一个
+        NSInteger streamId = NSDate.date.timeIntervalSince1970 * 1000;
+        
+        /**
+         当前协议设计，音频播放大致分了三大步骤：
+         1. 开始（❶.初始化音频格式）
+         2. 发送（❶.初始化音频元信息、❷.发送音频数据、❸.音频数据发送完成，请求校验文件）
+         3. 结束（❶.响应发送的音频总数量，结束）
+         */
+        
+        /// 例如一次对话中需要播放音频流，app端要管理音频文件队列，一次只能发送一个音频文件，直到发送完成才能发送下一个音频文件...
+        /// 音频开始时，调用一次【开始】
+        /// 音频陆续接收，依次发送(多次)调用【发送】
+        /// 所有音频发送完毕，调用一次【结束】
+        
+        // 开始
+        [self audioStart:streamId format:format callback:^(BOOL succeed) {
+            
+            if (succeed) {
+                // 发送...
+                [self audioSending:streamId array:files index:0 callback:^(BOOL complete) {
+                    
+                    if (complete) {
+                        // 结束
+                        [self audioEnd:streamId count:files.count callback:^(BOOL succeed) {
+                            
+                            //done...
+                        }];
+                    }
+                }];
+            }
+        }];
+    }
+    else if ([title isEqualToString:@"响应当前APP状态"])
+    {
+        [LinWearKit respondCurrentAppStates:LWAppStatus_Foreground withCallback:^(NSError * _Nullable error) {
+            NSLog(@"响应当前APP状态 %@", error ? @"失败" : @"成功");
+        }];
+    }
 }
 
 
@@ -646,6 +698,103 @@ static NSString *const LWMainCellID = @"UITableViewCell";
                     [self fileUploadWithNegotis:negotis index:index+1]; // 继续检查上传
                 }
             }];
+        }
+    }];
+}
+
+
+#pragma mark - 音频播放
+
+/// 1. 初始化（音频开始）
+- (void)audioStart:(NSInteger)streamId format:(NSString *)format callback:(void (^)(BOOL succeed))callback
+{
+    LWAudioFormatModel *audioFormat = [LWAudioFormatModel new];
+    audioFormat.streamId = streamId;
+    audioFormat.format = format;
+    // 其他...也根据实际格式设置...
+    
+    // 初始化音频格式
+    [LinWearKit initAudioFormat:audioFormat withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+        // 注意业务状态 number
+        NSLog(@"初始化音频格式 %@", error ? @"失败" : @"成功");
+        
+        if (callback) {
+            callback(number.integerValue == 0 && !error);
+        }
+    }];
+}
+
+/// 2. 音频发送...
+- (void)audioSending:(NSInteger)streamId array:(NSArray <NSString *> *)array index:(NSInteger)index callback:(void (^)(BOOL complete))callback
+{
+    if (index < array.count) { // 递归发送
+        
+        NSData *data = [NSData dataWithContentsOfFile:array[index]];
+        
+        // 1.初始化音频元信息
+        LWAudioMetaModel *audioMeta = [LWAudioMetaModel new];
+        audioMeta.streamId = streamId;
+        audioMeta.fileId = index;
+        audioMeta.fileSize = data.length;
+        //audioMeta.duration 暂时可不设置
+        audioMeta.isLastFile = YES;
+        
+        [LinWearKit initAudioMeta:audioMeta withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+            // 注意业务状态 number
+            NSLog(@"初始化音频元信息 %@", error ? @"失败" : @"成功");
+            
+            if (number.integerValue == 0 && !error) // 初始化音频元信息成功
+            {
+                // 2.发送音频数据
+                [LinWearKit sendAudioData:data withCallback:^(NSError * _Nullable error) {
+                    NSLog(@"发送音频数据 %@", error ? @"失败" : @"成功");
+                    
+                    if (!error)
+                    {
+                        // 3.音频数据发送完成，请求校验文件
+                        [LinWearKit requestVerifyAudioData:data streamId:streamId fileId:index withCallback:^(NSNumber * _Nullable number, NSError * _Nullable error) {
+                            // 注意业务状态 number
+                            NSLog(@"音频数据发送完成，请求校验文件 %@", error ? @"失败" : @"成功");
+                            
+                            if (number.integerValue == 0 && !error) // 校验文件成功
+                            {
+                                [self audioSending:streamId array:array index:index+1 callback:callback];
+                            }
+                            else {
+                                // 失败... 这里根据自身业务处理...
+                                [self audioSending:streamId array:array index:index+1 callback:callback];
+                            }
+                        }];
+                    }
+                    else {
+                        // 失败... 这里根据自身业务处理...
+                        [self audioSending:streamId array:array index:index+1 callback:callback];
+                    }
+                }];
+            }
+            else {
+                // 失败... 这里根据自身业务处理...
+                [self audioSending:streamId array:array index:index+1 callback:callback];
+            }
+        }];
+    }
+    else { // 完成所有
+        
+        if (callback) {
+            callback(YES);
+        }
+    }
+}
+
+/// 3. 音频结束
+- (void)audioEnd:(NSInteger)streamId count:(NSInteger)count callback:(void (^)(BOOL succeed))callback
+{
+    // 响应发送的音频总数量（结束）
+    [LinWearKit respondSentAudioCount:count streamId:streamId withCallback:^(NSError * _Nullable error) {
+        NSLog(@"响应发送的音频总数量（结束） %@", error ? @"失败" : @"成功");
+        
+        if (callback) {
+            callback(!error);
         }
     }];
 }
@@ -829,6 +978,25 @@ static NSString *const LWMainCellID = @"UITableViewCell";
 - (void)deviceBrConnectionPairingStatus:(LWPairingStatus)status
 {
     NSLog(@"设备BR连接配对状态 %lu", status);
+}
+
+/// 设备屏幕状态
+- (void)deviceScreenStatus:(LWScreenStatus)status
+{
+    NSLog(@"设备屏幕状态 %lu", status);
+}
+
+/// 设备请求APP状态
+- (void)deviceRequestsAppStatus
+{
+    NSLog(@"设备请求APP状态");
+    
+    UIApplicationState appState = UIApplication.sharedApplication.applicationState;
+    LWAppStatus states = appState==UIApplicationStateActive ? LWAppStatus_Foreground : LWAppStatus_Background;
+    // 响应状态
+    [LinWearKit respondCurrentAppStates:states withCallback:^(NSError * _Nullable error) {
+        // done...
+    }];
 }
 
 @end

@@ -16,6 +16,16 @@
  
  版本记录：
  
+ project    2026-03-05  Version:1.0.7   Build:2026030501
+            1.新增「初始化音频格式（开始）」方法 参@link initAudioFormat:withCallback:
+            2.新增「初始化音频元信息」方法 参@link initAudioMeta:withCallback:
+            3.新增「发送音频数据」方法 参@link sendAudioData:withCallback:
+            4.新增「音频数据发送完成，请求校验文件」方法 参@link requestVerifyAudioData:streamId:fileId:withCallback:
+            5.新增「响应发送的音频总数量（结束）」方法 参@link respondSentAudioCount:streamId:withCallback:
+            6.新增「响应当前APP状态」方法 参@link respondCurrentAppStates:withCallback:
+            7.新增「设备屏幕状态」委托代理方法 参@link deviceScreenStatus:
+            8.新增「设备请求APP状态」委托代理方法 参@link deviceRequestsAppStatus
+ 
  project    2026-02-25  Version:1.0.6   Build:2026022501
             1.更新「设备录音数据」委托代理方法，方法由 deviceAudioRecordingWithAudioData:audioFormat: 改为 参@link LWDelegate deviceAudioRecordingWithDataArray:audioFormat:
             2.新增「opus转pcm」方法 参@link opusStream2pcm:
@@ -85,6 +95,8 @@
 #import <LinWearKit/LWDeviceResourcesModel.h>
 #import <LinWearKit/LWCheckInSpotsModel.h>
 #import <LinWearKit/LWCheckInSpotsResultModel.h>
+#import <LinWearKit/LWAudioFormatModel.h>
+#import <LinWearKit/LWAudioMetaModel.h>
 
 #import <LinWearKit/LWDelegate.h>
 #import <LinWearKit/LWCallback.h>

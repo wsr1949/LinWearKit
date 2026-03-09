@@ -364,6 +364,53 @@ NS_ASSUME_NONNULL_BEGIN
 + (void)deleteDeviceFilesOrDirectories:(NSString * _Nonnull)filePath withCallback:(LWResultNumberCallback)callback;
 
 
+/**
+ 初始化音频格式（开始）
+ @param audioFormat             音频格式
+ @param callback                number数值：0表示初始化成功，其他则表示失败
+ */
++ (void)initAudioFormat:(LWAudioFormatModel * _Nonnull)audioFormat withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 初始化音频元信息
+ @param audioMeta               音频元信息
+ @param callback                number数值：0表示初始化成功，其他则表示失败
+ */
++ (void)initAudioMeta:(LWAudioMetaModel * _Nonnull)audioMeta withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 发送音频数据
+ @param audioData               音频数据
+ */
++ (void)sendAudioData:(NSData * _Nonnull)audioData withCallback:(LWResultCallback)callback;
+
+
+/**
+ 音频数据发送完成，请求校验文件
+ @param audioData               音频数据
+ @param streamId                流ID
+ @param fileId                  文件ID
+ @param callback                number数值：0表示文件校验失败，其他则表示失败
+ */
++ (void)requestVerifyAudioData:(NSData * _Nonnull)audioData streamId:(NSInteger)streamId fileId:(NSInteger)fileId withCallback:(LWResultNumberCallback)callback;
+
+
+/**
+ 响应发送的音频总数量（结束）
+ @param audioCount              音频总数量
+ @param streamId                流ID
+ */
++ (void)respondSentAudioCount:(NSInteger)audioCount streamId:(NSInteger)streamId withCallback:(LWResultCallback)callback;
+
+
+/**
+ 响应当前APP状态
+ @param states                  APP状态
+ */
++ (void)respondCurrentAppStates:(LWAppStatus)states withCallback:(LWResultCallback)callback;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -3,7 +3,7 @@ PODS:
   - libopus (1.1):
     - libopus/float (= 1.1)
   - libopus/float (1.1)
-  - LinWearKit (1.0.6):
+  - LinWearKit (1.0.7):
     - libogg
     - libopus
     - MJExtension
@@ -40,13 +40,13 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   LinWearKit:
-    :commit: ad2efca521fe47ba3f7b2f135a88d0bc47b9d970
+    :commit: d29289c49a9a54bb7ff8e094b78b66fb94f0e1b2
     :git: https://github.com/wsr1949/LinWearKit.git
 
 SPEC CHECKSUMS:
   libogg: a355eccc76b1ec82b20f97a9f9d78a3683d28371
   libopus: ad5f060dcb8f30f139777244d70f9111f1c80863
-  LinWearKit: 35069d8d7e6aedde393d1ad122beb2d657030642
+  LinWearKit: 8af09601f952f0b0ddbfe0011b83aee759f4bb56
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJExtension: e97d164cb411aa9795cf576093a1fa208b4a8dd8
   Protobuf: 164aea2ae380c3951abdc3e195220c01d17400e0

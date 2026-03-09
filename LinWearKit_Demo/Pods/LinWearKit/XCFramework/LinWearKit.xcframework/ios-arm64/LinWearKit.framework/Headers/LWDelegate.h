@@ -134,6 +134,20 @@
  */
 - (void)deviceBrConnectionPairingStatus:(LWPairingStatus)status;
 
+
+/**
+ 设备屏幕状态
+ */
+- (void)deviceScreenStatus:(LWScreenStatus)status;
+
+
+/**
+ 设备请求APP状态
+ 
+ @note  收到此请求，应用端需要响应当前状态 详@link 【LinWearKit】respondCurrentAppStates:withCallback:
+ */
+- (void)deviceRequestsAppStatus;
+
 @end
 
 #endif /* LWDelegate_h */
