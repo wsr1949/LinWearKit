@@ -225,4 +225,26 @@ typedef NS_ENUM(NSInteger, LWPairingStatus)
 } NS_SWIFT_NAME(LWPairingStatus);
 
 
+/// 屏幕状态
+typedef NS_ENUM(NSInteger, LWScreenStatus)
+{
+    /// 已灭屏
+    LWScreenStatus_Off  = 0,
+    /// 已亮屏
+    LWScreenStatus_On   = 1,
+    
+} NS_SWIFT_NAME(LWScreenStatus);
+
+
+/// APP状态
+typedef NS_ENUM(NSInteger, LWAppStatus)
+{
+    /// APP处于后台
+    LWAppStatus_Background  = 0,
+    /// APP处于前台
+    LWAppStatus_Foreground   = 1,
+    
+} NS_SWIFT_NAME(LWAppStatus);
+
+
 #endif /* LWMacro_h */
